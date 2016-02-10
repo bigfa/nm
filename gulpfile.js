@@ -37,7 +37,7 @@ gulp.task("uglify", function () {
 
     gulp.src("static/js/page.js")
         .pipe(uglify())
-        .pipe(rename('single.min.js'))
+        .pipe(rename('page.min.js'))
         .pipe(gulp.dest("static/js"))    
 });
 

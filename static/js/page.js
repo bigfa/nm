@@ -78,7 +78,7 @@
 						b = b.song;
 						songs = b.songs;
 						$.each(songs, function(i, item) {
-							listT += '<li class="nm-songlist-item">' + item.title + ' - ' + item.artist + '<span class="song-time">' + formatTime(item.duration) + '</span></li>'
+							listT += '<li class="nm-songlist-item"><span class="song-info">' + item.title + ' - ' + item.artist + '</span><span class="song-time">' + formatTime(item.duration) + '</span></li>'
 						});
 						$('.nm-songlist').html(listT);
 						nmPlaylist.setPlaylist(songs);
