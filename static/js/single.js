@@ -156,7 +156,10 @@
                     lrc[l] != undefined && ($('#nm-player-' + __NM.current + ' .nmplayer-lrc').html(lrc[l]));
                     $('#nm-player-' + __NM.current + ' .current-time').text(b);
                     $('#nm-player-' + __NM.current + ' .nmsingle-process-bar').css('transform','translateX(' + ( c.jPlayer.status.currentPercentAbsolute - 100 ) + '%)');
-                }
+                },
+                swfPath: nm_ajax_url.swfurl,
+                solution: 'html,flash',
+                volume: 1,
             });
         },
         play: function(queue,index) {

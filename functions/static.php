@@ -9,7 +9,7 @@ function nm_scripts(){
     wp_register_script( 'nms', NM_URL . '/static/js/single' . $prefix . '.js', array(), NM_VERSION, true );
     wp_localize_script( 'nm', 'nm_ajax_url', array(
         'ajax_url' => admin_url('admin-ajax.php'),
-        'swfurl' => NM_URL . 'static/jquery.jplayer.swf',
+        'swfurl' => NM_URL . '/static/js/jquery.jplayer.swf',
         'nonce' =>wp_create_nonce('bigfa'),
         'tworow' =>nm_get_setting('tworow')
     ));
