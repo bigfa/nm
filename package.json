@@ -1,0 +1,22 @@
+{
+  "name": "netease-music",
+  "version": "2.0.0",
+  "description": "wordpress plugin netease music",
+  "main": "neteasemusic.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigfa/nm.git"
+  },
+  "keywords": [
+    "netease"
+  ],
+  "author": "bigfa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bigfa/nm/issues"
+  },
+  "homepage": "https://github.com/bigfa/nm#readme"
+}

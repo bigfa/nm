@@ -1,0 +1,155 @@
+@font-face{
+    font-family:"fx";
+    src:url('icomoon.eot');
+    src:url('icomoon.eot?#iefix') format('embedded-opentype'),url('icomoon.woff') format('woff'),url('icomoon.ttf') format('truetype'),url('icomoon.svg#fx') format('svg');
+}
+
+@colorGray : rgba(0,0,0,0.05);
+@colorPrimary : #cc0000;
+
+.fxfont{
+    font-family:"fx" !important;
+    font-style:normal;
+    -webkit-font-smoothing:antialiased;
+    -webkit-text-stroke-width:0.2px;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.nm-heart:before {
+    content: "\e904";
+}
+
+.nm-mute:before {
+    content: "\e90d";
+}
+
+.muted.nm-mute:before {
+    content: "\e90e";
+}
+
+.nm-unmute:before {
+    content: "\e90d";
+}
+
+.nm-playselected:before{
+    content:"\e604";
+}
+.nm-next:before{
+    content:"\e90c";
+}
+.nm-pause:before{
+    content:"\e906";
+}
+.nm-play:before,.paused .nm-pause:before{
+    content:"\e905";
+}
+
+.nm-note:before{
+    content:"\e606";
+}
+.nm-previous:before{
+    content:"\e902";
+}
+
+.nmsingle {
+    &-container {
+        border:1px @colorGray solid;
+        border-radius: 3px;
+        overflow: hidden;
+        line-height: 26px;
+    }
+    &-cover {
+        height:74px;
+        width:74px;
+        float:left;
+        background-position: center;
+        background-size: cover;
+        text-align: center;
+        line-height: 70px;
+        font-size: 36px;
+        color:white;
+        cursor:pointer;
+        &:hover {
+            color:@colorPrimary;
+        }
+    }
+    &-info{
+        padding: 5px 15px;
+        margin-left: 74px;
+    }
+    &-process{
+        background-color: #ddd;
+        cursor:pointer;
+        position:relative;
+        overflow:hidden;
+    }
+    &-process-bar{
+        background-color: #cc0000;
+        position:relative;
+        height:3px;
+        transition: .5s;
+        transform: translateX(-100%);
+    }
+    &-playtime {
+        color:rgba(0,0,0,0.56);
+        float:right;
+    }
+    &-lrc {
+        font-size: 12px;
+        color:rgba(0,0,0,0.44);
+        overflow:hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.nmplayer-mid {
+    overflow:hidden;
+}
+
+.nmplayer-control {
+        float:right;
+        color:rgba(0,0,0,0.44);
+        span {
+            margin-left: 2px;
+            cursor:pointer;
+            &:hover {
+                color:@colorPrimary;
+            }
+        }
+        .nm-mute {
+            border-left: 1px rgba(0,0,0,0.3) solid;
+            padding-left: 5px;
+        }
+ }
+
+
+.nms-list {
+    counter-reset: posts-counter;
+    font-size: 14px;
+    border:1px solid rgba(0, 0, 0, 0.05);
+    border-top: 0;
+    border-radius: 0 0 3px 3px;
+    &-item {
+        padding:5px 15px;
+        color:rgba(0,0,0,0.44);
+        cursor:pointer;
+        line-height: 1.4;
+        &:before{
+            content: counter(posts-counter, decimal) ". ";
+            counter-increment: posts-counter;
+        }
+        &.is-active {
+            color:@colorPrimary;
+        }
+        &:nth-child(odd){
+            background-color: #f0f0f0;
+        }
+        .song-time{
+            float:right;
+        }
+        .song-info {
+           
+        }
+    }
+}
