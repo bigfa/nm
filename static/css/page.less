@@ -1,7 +1,7 @@
 @font-face{
     font-family:"fx";
-    src:url('neteasemusic.eot');
-    src:url('neteasemusic.eot?#iefix') format('embedded-opentype'),url('neteasemusic.woff') format('woff'),url('neteasemusic.ttf') format('truetype'),url('neteasemusic.svg#fx') format('svg');
+    src:url('icomoon.eot');
+    src:url('icomoon.eot?#iefix') format('embedded-opentype'),url('icomoon.woff') format('woff'),url('icomoon.ttf') format('truetype'),url('icomoon.svg#fx') format('svg');
 }
 
 @colorGray : rgba(0,0,0,0.05);
@@ -19,22 +19,19 @@
     content:"\e604";
 }
 .nm-next:before{
-    content:"\e600";
-}
-.nm-pause:before{
-    content:"\e601";
+    content:"\e90c";
 }
 .nm-play:before,.paused .nm-pause:before{
-    content:"\e602";
+    content:"\e909";
 }
-.nm-nm-pause:before{
-    content:"\e605";
+.nm-pause:before{
+    content:"\e90a";
 }
 .nm-note:before{
-    content:"\e606";
+    content:"\e901";
 }
 .nm-previous:before{
-    content:"\e603";
+    content:"\e902";
 }
 
 .nm-wrapper {
@@ -148,6 +145,7 @@
         a {
             display:inline-block;
             padding-left: 20px;
+            text-decoration: none;
             &:hover {
                 color:rgba(0,0,0,0.8);
             }
@@ -237,7 +235,7 @@
     }
     &-item.nmplaylist-current {
         &:before{
-            content:"\e602";
+            content:"\e909";
             font-family: "fx";
         }
     }
