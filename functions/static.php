@@ -2,8 +2,8 @@
 
 function nm_scripts(){
     $prefix = NM_DEBUG ? '' : '.min';
-    wp_register_style( 'nm', NM_URL . '/static/css/style.css', array(), NM_VERSION );
-    wp_register_style( 'nms', NM_URL . '/static/css/single.css', array(), NM_VERSION );
+    wp_register_style( 'nm', NM_URL . '/static/css/style.min.css', array(), NM_VERSION );
+    wp_register_style( 'nms', NM_URL . '/static/css/single.min.css', array(), NM_VERSION );
     wp_register_script( 'nm',  NM_URL . '/static/js/base' . $prefix . '.js', array('jquery'), NM_VERSION, true );
     wp_register_script( 'nmp', NM_URL . '/static/js/page' . $prefix . '.js', array(), NM_VERSION, true );
     wp_register_script( 'nms', NM_URL . '/static/js/single' . $prefix . '.js', array(), NM_VERSION, true );

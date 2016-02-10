@@ -157,6 +157,7 @@
                     $('#nm-player-' + __NM.current + ' .current-time').text(b);
                     $('#nm-player-' + __NM.current + ' .nmsingle-process-bar').css('transform','translateX(' + ( c.jPlayer.status.currentPercentAbsolute - 100 ) + '%)');
                 },
+                supplied: 'mp3',
                 swfPath: nm_ajax_url.swfurl,
                 solution: 'html,flash',
                 volume: 1,
@@ -183,7 +184,7 @@
             __NM.current = queue;
             __NM.bomb = index;
             $(this.player).jPlayer("setMedia",playlist[__NM.current][__NM.bomb]);
-        }
+        },
 
     }
  
