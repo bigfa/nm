@@ -153,7 +153,7 @@
                     b = formatTime(b),
                     lrc = playlist[__NM.current][__NM.bomb].lrc,
                     l = parseInt(c.jPlayer.status.currentTime);
-                    lrc[l] != undefined && ($('#nm-player-' + __NM.current + ' .nmplayer-lrc').html(lrc[l]));
+                    lrc[l] != undefined && ($('#nm-player-' + __NM.current + ' .nmsingle-lrc').html(lrc[l]));
                     $('#nm-player-' + __NM.current + ' .current-time').text(b);
                     $('#nm-player-' + __NM.current + ' .nmsingle-process-bar').css('transform','translateX(' + ( c.jPlayer.status.currentPercentAbsolute - 100 ) + '%)');
                 },
