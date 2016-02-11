@@ -38,7 +38,12 @@ gulp.task("uglify", function () {
     gulp.src("static/js/page.js")
         .pipe(uglify())
         .pipe(rename('page.min.js'))
-        .pipe(gulp.dest("static/js"))    
+        .pipe(gulp.dest("static/js"))
+
+    gulp.src("static/js/base.js")
+        .pipe(uglify())
+        .pipe(rename('base.min.js'))
+        .pipe(gulp.dest("static/js"))        
 });
 
 gulp.task('watch', function () {
