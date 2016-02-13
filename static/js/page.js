@@ -84,7 +84,19 @@
             }      
             log(__PUSSY.current);
         });
+        $(self.player).bind($.jPlayer.event.play, function() {
+            var song = playlist[__PUSSY.current][__PUSSY.bomb];
+            $('.nm-songlist-item').removeClass('current');
+            $('.nm-songlist-item').data('status','ready');
+            $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','play');
+            $('.nm-songlist-item').eq(__PUSSY.bomb).addClass('current');
+            $('.nmplayer-title').html(song.title + ' - ' + song.artist);
+        });
 
+        $(self.player).bind($.jPlayer.event.pause, function() {
+            var song = playlist[__PUSSY.current][__PUSSY.bomb];
+            $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','pause');
+        });
 
         $(self.player).bind($.jPlayer.event.ended, function() {
             if (__PUSSY.bomb < playlist[__PUSSY.current].length ) {
@@ -99,8 +111,15 @@
         $(document).on('click','.nm-songlist-item',function(){
             var _self = $(this);
             var index = _self.index();
-            self.play(__PUSSY.current,index);
-            log('play ' + index);
+            if ( _self.data('status') == 'play' ) {
+                self.pause();
+            } else if ( _self.data('status') == 'pause' ) {
+                self.play();
+            } else {
+                self.play(__PUSSY.current,index);
+                log('play ' + index);
+            }
+            
         });
 
         $('.jp-progress').on('click', function(event) {
