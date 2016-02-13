@@ -33,6 +33,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Changelog ==
 
+= 2.0.1 =
+* 重写了歌单页面
+
 = 2.0.0 =
 
 * 重构了整个插件

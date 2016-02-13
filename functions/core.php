@@ -96,13 +96,12 @@ function get_netease_music($paged = null){
     $max_page = ceil($count/$per_page);
     $paged = $paged ? $paged : 1;
     $contents = array_slice( $contents,( ( $paged-1 )* $per_page ), $per_page );
-    $is_small =  nm_get_setting('small');
     $css = 'nm-album-list nm-container';
     $size = nm_get_setting('coverwidth') ? nm_get_setting('coverwidth') : 180;
     $output = '<div class="'. $css .'">';
     foreach($contents as $content){
         $index ++;
-        $output .= '<div class="album--nice nm-list-item" data-cover="'.$content['playlist_coverImgUrl'].'" data-id="'.$content['playlist_id'].'"  data-info="'.$content['playlist_name'].'"><div class="nm-list-content"><img src="'.$content['playlist_coverImgUrl'].'"><span class="music-info">'.$content['playlist_name'] . '</span></div></div>';
+        $output .= '<div class="nm-list-item" data-id="'.$content['playlist_id'].'"><div class="nm-list-content"><img class="music-cover" src="'.$content['playlist_coverImgUrl'].'"><span class="music-info">'.$content['playlist_name'] . '</span></div></div>';
 
         if( $index%$row==0 && $index < $per_page) $output .= '</div><div class="'. $css .'">';
     }
@@ -123,15 +122,9 @@ function nm_player(){
             <span class="nmplayer-title"></span><span class="nmplayer-time"></span><span class="nmplayer-lrc"></span>
         </div>
         <div class="nmplayer-control">
-            <a class="jp-previous" href="javascript:;">
                         <span class="nm-previous fxfont "></span>
-                    </a>
-                    <a id="nmplayer-button" href="javascript:;">
-                        <span class="nm-pause fxfont "></span>
-                    </a>
-                    <a class="jp-next" href="javascript:;">
+                        <span class="nms-play-btn nm-pause fxfont"></span>
                         <span class="nm-next fxfont"></span>
-                    </a>
         </div>
     </div>
     <div id="nm_jplayer" style="display:none">

@@ -5,7 +5,7 @@
         queue : [],
         current : null,
         bomb : 0,
-        debug : true,
+        debug : false,
     }
 
     var playlist = [];
@@ -47,7 +47,11 @@
 
         $(document).on("click", ".nm-list-item", function() {
             var _self = $(this);
-            var info = _self.data('info');
+            if ( _self.hasClass('is-active') ) return;
+            $('.nm-list-item').removeClass('is-active');
+            _self.addClass('is-active');
+            var info = _self.children('.nm-list-content').find('.music-info').text();
+            var cover = _self.children('.nm-list-content').find('.music-cover').attr('src');
             var id = _self.data('id');
             var blackdick = 'dick' + id;
             var nmPlayListContainer = $(".nm-songs");
@@ -57,7 +61,7 @@
             nmPlayListContainer.remove();
             _self.parent().after(nmPlayListSongslist);
             __PUSSY.current = blackdick;
-            $('.nmplayer-cover').css('background-image','url(' + _self.data('cover') + ')');
+            $('.nmplayer-cover').css('background-image','url(' + cover + ')');
             if ( playlist[blackdick] ) {
                 _makePlaylist(playlist[blackdick]);
                 self.play(blackdick,0);
@@ -71,8 +75,7 @@
                     id: id
                 },
                 success: function(b) {
-                    if (200 == b.msg) {
-                        
+                    if (200 == b.msg) {                       
                         b = b.song;
                         var songs = b.songs;
                         _makePlaylist(songs);
@@ -91,11 +94,13 @@
             $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','play');
             $('.nm-songlist-item').eq(__PUSSY.bomb).addClass('current');
             $('.nmplayer-title').html(song.title + ' - ' + song.artist);
+            $('.nms-play-btn').removeClass('nm-play').addClass('nm-pause');
         });
 
         $(self.player).bind($.jPlayer.event.pause, function() {
             var song = playlist[__PUSSY.current][__PUSSY.bomb];
             $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','pause');
+            $('.nms-play-btn').removeClass('nm-pause').addClass('nm-play');
         });
 
         $(self.player).bind($.jPlayer.event.ended, function() {
@@ -129,6 +134,17 @@
             var percent = ( event.pageX - s ) / _self.width();
             var song = playlist[__PUSSY.current][__PUSSY.bomb].duration;
             $(self.player).jPlayer('play', song * percent);
+        });
+
+        $(document).on('click', '.nms-play-btn', function(){
+            var _self = $(this);
+                if ( _self.hasClass('nm-play') ) {
+                    log('player continue.');
+                    self.play();                   
+                } else {
+                    log('player pause.');
+                    self.pause();
+                }           
         });
 
         $(document).on('click','.nm-previous',function(){
@@ -204,7 +220,7 @@
         previous: function() {
             if ( __PUSSY.bomb < 1 ) return;
             log(__PUSSY.bomb);
-            this.play(__PUSSY.current,( __NM.bomb - 1 ));
+            this.play(__PUSSY.current,( __PUSSY.bomb - 1 ));
         },
     }
 
