@@ -147,6 +147,29 @@
                 }           
         });
 
+        $(document).on('click', '.nm-loadmore', function(){
+            var _self = $(this);
+            var data = _self.data();
+            if (_self.hasClass('is-active')) return;
+            _self.addClass('is-active');
+            $.ajax({
+                url: nm_ajax_url.ajax_url,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function(response){
+                    if ( response.status != 200 ) return log('error');
+                    $('.nm-wrapper').append(response.data);
+                    if(response.nav) {
+                        _self.data('id',response.nav);
+                    } else {
+                        _self.remove();
+                    }
+                    _self.removeClass('is-active');
+                }
+            });       
+        });
+
         $(document).on('click','.nm-previous',function(){
             var _self = $(this);
             log('previous');

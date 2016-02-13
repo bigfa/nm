@@ -35,8 +35,7 @@ function netease_music_callback(){
     $paged = $_POST["paged"];
     $max = $_POST["max"];
     $content = get_netease_music($paged );
-    if( $max > $paged ) $nav = '<div class="music-page-navi"><a class="nm-loadmore" data-max="' . $max . '" data-paged="'. ($paged + 1) .'" href=
-"javascript:;">加载更多音乐</a></div>';
+    if( $max > $paged ) $nav = $paged + 1;
     $data = array("status"=>200,"data"=>$content,"nav"=>$nav);
     echo json_encode($data);
     die;
