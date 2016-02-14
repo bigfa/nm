@@ -57,9 +57,13 @@
             var nmPlayListContainer = $(".nm-songs");
             var is3 = nm_ajax_url.tworow ? ' threerow' : '';
             $('.nmplaybar').addClass('appear');
-            var nmPlayListSongslist = '<div class="nm-songs"><div class="nm-songs-title nm-container">' + info + '</div><div class="nm-songs-list nm-container"><ul class="nm-songlist' + is3 + '"></ul></div></div>';
+            var nmPlayListSongslist = '<div class="fucker"></div><div class="nm-songs"><div class="nm-songs-title nm-container">' + info + '</div><div class="nm-songs-list nm-container"><ul class="nm-songlist' + is3 + '"></ul></div></div>';
+            var left = _self.offset().left + _self.width() / 2 - 10;
+
             nmPlayListContainer.remove();
+            $('.fucker').remove();
             _self.parent().after(nmPlayListSongslist);
+            $('.fucker').css('margin-left',left + 'px');
             __PUSSY.current = blackdick;
             $('.nmplayer-cover').css('background-image','url(' + cover + ')');
             if ( playlist[blackdick] ) {
@@ -90,7 +94,7 @@
         $(self.player).bind($.jPlayer.event.play, function() {
             var song = playlist[__PUSSY.current][__PUSSY.bomb];
             $('.nm-songlist-item').removeClass('current');
-            $('.nm-songlist-item').data('status','ready');
+            $('.nm-songlist-item').data('status','ready').removeClass('pause');
             $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','play');
             $('.nm-songlist-item').eq(__PUSSY.bomb).addClass('current');
             $('.nmplayer-title').html(song.title + ' - ' + song.artist);
@@ -99,7 +103,7 @@
 
         $(self.player).bind($.jPlayer.event.pause, function() {
             var song = playlist[__PUSSY.current][__PUSSY.bomb];
-            $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','pause');
+            $('.nm-songlist-item').eq(__PUSSY.bomb).data('status','pause').addClass('pause');
             $('.nms-play-btn').removeClass('nm-pause').addClass('nm-play');
         });
 

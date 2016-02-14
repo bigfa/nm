@@ -53,15 +53,19 @@
             var song = playlist[__NM.current][__NM.bomb];
             $('#nm-player-' + __NM.current + ' .nms-play-btn').removeClass('nm-pause').addClass('nm-play');
             $('#nm-list-' + __NM.current + ' .nms-list-item').eq(__NM.bomb).data('status','pause');
+            log(__NM.bomb);
+            log('sb');
         });
 
         $(self.player).bind($.jPlayer.event.ended, function() {
-            if (__NM.bomb < playlist[__NM.current].length ) {
+            if (__NM.bomb < playlist[__NM.current].length - 1 ) {
                 __NM.bomb = __NM.bomb + 1;
                 self.play(__NM.current,__NM.bomb);
                 $(self.player).jPlayer('play');
+                log('continue');
             } else {
                 __NM.bomb = 0;
+                log('end success')
             }           
         });
 
