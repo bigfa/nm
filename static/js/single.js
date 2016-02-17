@@ -69,6 +69,11 @@
             }           
         });
 
+        $(document).on(_event,'.com-close',function(){
+            var _self = $(this);
+            _self.parent().remove();
+        })
+
         $(document).on(_event,'.nm-mute',function(){
             var _self = $('.nm-mute');
             var status = _self.data('status');

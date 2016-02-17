@@ -92,6 +92,15 @@
                 </td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="<?php echo nm_setting_key('tworow');?>">歌曲评论</label></th>
+                <td>
+                    <label for="<?php echo nm_setting_key('comment');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('comment');?>" id="comment" value="1" <?php if(nm_get_setting("comment")) echo 'checked="checked"';?>>
+                    </label>
+                    <p class="description">显示歌曲热门评论。</p>
+                </td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="<?php echo nm_setting_key('tworow');?>">歌曲列表三列</label></th>
                 <td>
                     <label for="<?php echo nm_setting_key('tworow');?>">

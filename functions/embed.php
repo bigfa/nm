@@ -40,13 +40,13 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
     $id = $matches[2];
     global $nmjson;
     static $instance = 0;
-    
+
     if( $instance === 0) $html ='<script>var playlist = []</script><div id="nm_jplayer" style="display:none"></div>';
     switch ($type) {
         case 'album':
             $data = $nmjson->netease_album($id);
             $songs = $data['songs'];
-            $html .= nm_single_playform( $data['album_id'] , $instance , $data['album_cover'] , $data['album_title'] , $data['album_author'] , '' ); 
+            $html .= nm_single_playform( $data['album_id'] , $instance , $data['album_cover'] , $data['album_title'] , $data['album_author'] , '' );
             $html .= '<div class="nms-list" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
             foreach ($songs as $key => $song) {
                 $html .= '<div class="nms-list-item">' . $song['title'] . ' - ' . $song['artist'] . '<span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
@@ -57,7 +57,16 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
 
         case 'song':
             $data = $nmjson->netease_song($id);
-            $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );       
+            $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
+            if( nm_get_setting("comment") ) $comments = $nmjson->comments($id);
+            if (!empty($comments)) :
+                $html .= '<div class="nmhotcom"><span class="com-close">X</span><div class="nmhc-title">网易热评</div>';
+                foreach ($comments as $key => $comment) {
+                    $html .= '<div class="nmh-item"><img src="' . $comment['user']['avatarUrl'] . '?param=24x24" class="nmu-avatar"><span class="nmu-name">' . $comment['user']['nickname'] . '</span>:' .$comment['content'] . '</div>';
+                }
+                $html .= '</div>';
+            endif;
+
             $html .= '<script>playlist.push(' . json_encode(array($data)). ');</script>';
             break;
 
@@ -65,7 +74,7 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
             $data = $nmjson->netease_playlist($id);
             $songs = $data['songs'];
             //var_dump($songs);
-            $html .= nm_single_playform( $data['collect_id'] , $instance , $data['collect_cover'] , $data['collect_title'] , $data['collect_author'] , '' ); 
+            $html .= nm_single_playform( $data['collect_id'] , $instance , $data['collect_cover'] , $data['collect_title'] , $data['collect_author'] , '' );
             $html .= '<div class="nms-list" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
             foreach ($songs as $key => $song) {
                 $html .= '<div class="nms-list-item"><span class="song-info">' . $song['title'] . ' - ' . $song['artist'] . '</span><span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
@@ -75,9 +84,9 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
             break;
         case 'program':
             $data = $nmjson->netease_radio($id);
-            $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );      
+            $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
             $html .= '<script>playlist.push(' . json_encode(array($data)) . ');</script>';
-            break;    
+            break;
         default:
             return $url;
             break;
