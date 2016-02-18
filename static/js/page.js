@@ -161,7 +161,7 @@
                     if ( response.status != 200 ) return log('error');
                     $('.nm-wrapper').append(response.data);
                     if(response.nav) {
-                        _self.data('id',response.nav);
+                        _self.data('paged',response.nav);
                     } else {
                         _self.remove();
                     }
