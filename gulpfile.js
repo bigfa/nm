@@ -46,9 +46,5 @@ gulp.task("uglify", function () {
         .pipe(gulp.dest("static/js"))        
 });
 
-gulp.task('watch', function () {
-    gulp.watch('static/css/*.less', ['less']);
-    gulp.watch('static/js/*.js', ['uglify']);
-});
 
-gulp.task('default', ['less','uglify','watch']);
+gulp.task('default', ['less','uglify']);

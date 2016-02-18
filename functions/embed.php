@@ -25,7 +25,7 @@ function nms_like_btn($id) {
 }
 
 function nm_single_playform( $id , $instance , $cover , $title , $artist , $duration ) {
-    return '<div id="nm-player-' . $instance . '" class="nmsingle-container"><div class="nmsingle-cover" style="background-image:url(' . $cover . ')"><span class="nms-play-btn fxfont nm-play" data-index=' . $instance . '></span></div><div class="nmsingle-info"><div class="nmplayer-top"><span class="nmplayer-title">' . $title . ' - ' . $artist . '</span><span class="nmsingle-playtime"><span class="current-time">--:--</span> / <span class="duration">' . nm_format_time($data['duration']) . '</span></span></div><div class="nmplayer-mid"><div class="nmplayer-control" data-index=' . $instance . '><span class="fxfont nm-previous"></span><span class="fxfont nm-next"></span><span class="nm-mute fxfont"></span></div><div class="nmsingle-lrc">(*+﹏+*)</div></div><div class="nmsingle-process" data-index="' . $instance . '"><div class="nmsingle-process-bar"></div></div></div></div>';
+    return '<div id="nm-player-' . $instance . '" class="nmsingle-container"><div class="nmsingle-cover" style="background-image:url(' . $cover . '?param=148x148)"><span class="nms-play-btn fxfont nm-play" data-index=' . $instance . '></span></div><div class="nmsingle-info"><div class="nmplayer-top"><span class="nmplayer-title">' . $title . ' - ' . $artist . '</span><span class="nmsingle-playtime"><span class="current-time">--:--</span> / <span class="duration">' . nm_format_time($data['duration']) . '</span></span></div><div class="nmplayer-mid"><div class="nmplayer-control" data-index=' . $instance . '><span class="fxfont nm-previous"></span><span class="fxfont nm-next"></span><span class="nm-mute fxfont"></span></div><div class="nmsingle-lrc">(*+﹏+*)</div></div><div class="nmsingle-process" data-index="' . $instance . '"><div class="nmsingle-process-bar"></div></div></div></div>';
 }
 
 wp_embed_register_handler( 'neteasemusicalbum', '#http:\/\/music\.163\.com\/\#\/(\w+)\?id=(\d+)#i', 'wp_embed_handler_neteasemusicalbum' );
@@ -62,7 +62,7 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
             if (!empty($comments)) :
                 $html .= '<div class="nmhotcom"><span class="com-close">X</span><div class="nmhc-title">网易热评</div>';
                 foreach ($comments as $key => $comment) {
-                    $html .= '<div class="nmh-item"><img src="' . $comment['user']['avatarUrl'] . '?param=24x24" class="nmu-avatar"><span class="nmu-name">' . $comment['user']['nickname'] . '</span>:' .$comment['content'] . '</div>';
+                    $html .= '<div class="nmh-item"><span style="background-image:url(' . $comment['user']['avatarUrl'] . '?param=48x48)" class="nmu-avatar"></span><span class="nmu-name">' . $comment['user']['nickname'] . '</span>:' .$comment['content'] . '</div>';
                 }
                 $html .= '</div>';
             endif;

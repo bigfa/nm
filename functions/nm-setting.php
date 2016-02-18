@@ -92,7 +92,7 @@
                 </td>
             </tr>
             <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('tworow');?>">歌曲评论</label></th>
+                <th scope="row"><label for="<?php echo nm_setting_key('comment');?>">歌曲评论</label></th>
                 <td>
                     <label for="<?php echo nm_setting_key('comment');?>">
                         <input type="checkbox" name="<?php echo nm_setting_key('comment');?>" id="comment" value="1" <?php if(nm_get_setting("comment")) echo 'checked="checked"';?>>

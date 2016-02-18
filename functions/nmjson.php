@@ -200,22 +200,23 @@ class nmjson{
 
     public function netease_radio($id)
     {
-        $key = "/netease/radios/$radio_id";
+        $key = "/netease/radios/$id";
 
         $cache = $this->get_cache($key);
-        //if ($cache) return $cache;
+        if ( $cache ) return $cache;
         $url = "http://music.163.com/api/dj/program/detail?id=" . $id;
         $response = $this->netease_http($url);
-        //var_dump($response);
+        
         if ($response["code"] == 200 && $response["program"]) {
             //处理音乐信息
             $result = $response["program"];
+            
             $count  = count($result);
             $mp3_url = str_replace("http://m", "http://p", $result['mainSong']['mp3Url']);
             $results = array(
                 "id" => $result['mainSong']['id'],
                 "title" => $result['mainSong']['name'],
-                "artist" => '多人',
+                "artist" => $result['mainSong']['artists'][0]['name'],
                 "mp3" => $mp3_url,
                 "cover" => $result['mainSong']['album']['picUrl'],
                 "duration" => $result['mainSong']['duration'] / 1000,
