@@ -268,7 +268,7 @@ class nmjson{
         $url = "http://music.163.com/api/song/media?id=" . $songid;
         $response = $this->netease_http($url);
 
-        if( $response["code"]==200 && $response["lyric"] ){
+        if( $response["code"]==200 && isset($response["lyric"]) ){
 
             $content = $response["lyric"];
             $result = $this->parse_lrc($content);
@@ -292,7 +292,7 @@ class nmjson{
                 $tmp2 = substr($val, 1, 8);
                 $tmp2 = explode(":", $tmp2);
 
-                $lrc_sec = intval( $tmp2[0]*60 + $tmp2[1]*1 );
+                $lrc_sec = intval( $tmp2[0]*60 + ( isset($tmp2[1]) ? $tmp2[1]*1 : 0 ) );
 
                 if( is_numeric($lrc_sec) && $lrc_sec > 0){
                     $count = count($tmp);
