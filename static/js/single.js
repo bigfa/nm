@@ -102,6 +102,20 @@
             self.previous();
         });
 
+        $(document).on(_event,'.list-triggle',function(){
+            console.log('sb');
+            var _self = $(this);
+            var queueIndex = _self.parent().data('index');
+            var slist = $('#nm-list-' + queueIndex);
+            if( slist.hasClass('hide') ){
+                _self.html('隐藏列表');
+                slist.removeClass('hide');
+            } else {
+                _self.html('展开列表');
+                slist.addClass('hide');
+            }
+        });
+
         $(document).on(_event,'.nm-next',function(){
             var _self = $(this);
             var queueIndex = _self.parent().data('index');
