@@ -1,19 +1,15 @@
 === Netease Music ===
 Contributors: bigfa
-Tags: wordpress,  163 ,music ,网易云音乐
+Tags: wordpress, 163,music ,网易云音乐, 虾米音乐
 Requires at least: 4.0
-Tested up to: 4.5
+Tested up to: 4.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-网易云音乐歌单
+网易云音乐
 
 == Description ==
-
-网易云音乐歌单，可以同步你在网易云音乐的歌单并播放。
-
-音乐资源来自网易云音乐music.163.com
 
 演示地址:https://galfond.com/music
 
@@ -24,7 +20,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 1. 上传 `neatease-music`目录 到 `/wp-content/plugins/` 目录或后台搜索netease music
 2. 在后台插件菜单激活该插件
 3. 后台填写你的网易云音乐用户ID
-4. 直接使用短代码[nm][/nm]，或者在需要的地方使用插入netease_music()，或者在插件设置页面直接选择页面
+4. 直接使用短代码[nm]，或者在需要的地方使用插入`netease_music()`，或者在插件设置页面直接选择页面
 
 
 == Frequently asked questions ==
@@ -32,8 +28,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 2.0.4 =
+* 增加虾米音乐支持
+
 = 2.0.3 =
 * 错误修复
+
 = 2.0.2 =
 * 错误修复
 * 增加了歌曲热门评论

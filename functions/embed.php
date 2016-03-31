@@ -25,11 +25,70 @@ function nms_like_btn($id) {
 }
 
 function nm_single_playform( $id , $instance , $cover , $title , $artist , $duration ) {
-    return '<div id="nm-player-' . $instance . '" class="nmsingle-container"><div class="nmsingle-cover" style="background-image:url(' . $cover . '?param=148x148)"><span class="nms-play-btn fxfont nm-play" data-index=' . $instance . '></span></div><div class="nmsingle-info"><div class="nmplayer-top"><span class="nmplayer-title">' . $title . ' - ' . $artist . '</span><span class="nmsingle-playtime"><span class="current-time">--:--</span> / <span class="duration">' . nm_format_time($duration) . '</span></span></div><div class="nmplayer-mid"><div class="nmplayer-control" data-index=' . $instance . '><span class="fxfont nm-previous"></span><span class="fxfont nm-next"></span><span class="nm-mute fxfont"></span></div><div class="nmsingle-lrc">(*+﹏+*)</div></div><div class="nmsingle-process" data-index="' . $instance . '"><div class="nmsingle-process-bar"></div></div></div></div>';
+    return '<div id="nm-player-' . $instance . '" class="nmsingle-container"><div class="nmsingle-cover" style="background-image:url(' . $cover . '?param=148x148)"><span class="nms-play-btn fxfont nm-play" data-index=' . $instance . '></span></div><div class="nmsingle-info"><div class="nmplayer-top"><span class="nmplayer-title">' . $title . ' - ' . $artist . '</span><span class="nmsingle-playtime"><span class="current-time">--:--</span> / <span class="duration">' . nm_format_time($duration) . '</span></span></div><div class="nmplayer-mid"><div class="nmplayer-control" data-index=' . $instance . '><span class="fxfont nm-previous"></span><span class="fxfont nm-next"></span><span class="nm-mute fxfont"></span><span class="list-triggle">列表</span></div><div class="nmsingle-lrc">(*+﹏+*)</div></div><div class="nmsingle-process" data-index="' . $instance . '"><div class="nmsingle-process-bar"></div></div></div></div>';
 }
 
 wp_embed_register_handler( 'neteasemusicalbum', '#http:\/\/music\.163\.com\/\#\/(\w+)\?id=(\d+)#i', 'wp_embed_handler_neteasemusicalbum' );
 
+wp_embed_register_handler( 'xiami','#http:\/\/www\.xiami\.com\/(\w+)\/(\d+)#i','wp_embed_handler_xiami');
+
+function wp_embed_handler_xiami( $matches, $attr, $url, $rawattr ){
+    if(! is_singular() ) return $url;
+    $type = $matches[1];
+    wp_enqueue_style('nms');
+    wp_enqueue_script('nm');
+    wp_enqueue_script('nms');
+    $id = $matches[2];
+    global $nmjson;
+    global $instance;
+
+    $instance = $instance ? $instance : 0;
+
+    if( $instance === 0) $html ='<script>var playlist = []</script><div id="nm_jplayer" style="display:none"></div>';
+    switch ($type) {
+        case 'album':
+            $data = $nmjson->xiami_album($id);
+            $songs = $data['songs'];
+            $html .= nm_single_playform( $data['album_id'] , $instance , $data['album_cover'] , $data['album_title'] , $data['album_author'] , '' );
+            $class = nm_get_setting('listopen') ? '' : ' hide';
+
+            $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
+
+            foreach ($songs as $key => $song) {
+                $html .= '<div class="nms-list-item">' . $song['title'] . ' - ' . $song['artist'] . '<span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
+            }
+            $html .= '</div>';
+            $html .= '<script>playlist.push(' . json_encode($songs). ');</script>';
+            break;
+
+        case 'song':
+            $data = $nmjson->xiami_song($id);
+            $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
+            $html .= '<script>playlist.push(' . json_encode(array($data)). ');</script>';
+            break;
+
+        case 'collect':
+            $data = $nmjson->xiami_collect($id);
+            $songs = $data['songs'];
+
+            $html .= nm_single_playform( $data['collect_id'] , $instance , $data['collect_cover'] , $data['collect_title'] , $data['collect_author'] , '' );
+            $class = nm_get_setting('listopen') ? '' : ' hide';
+
+            $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
+
+            foreach ($songs as $key => $song) {
+                $html .= '<div class="nms-list-item"><span class="song-info">' . $song['title'] . ' - ' . $song['artist'] . '</span></div>';
+            }
+            $html .= '</div>';
+            $html .= '<script>playlist.push(' . json_encode($songs). ');</script>';
+            break;
+        default:
+            return $url;
+            break;
+    }
+    $instance++;
+    return apply_filters( 'embed_forbes', $html, $matches, $attr, $url, $rawattr );
+}
 
 function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
     if(! is_singular() ) return $url;
@@ -39,15 +98,17 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
     wp_enqueue_script('nms');
     $id = $matches[2];
     global $nmjson;
-    static $instance = 0;
-
+    global $instance;
+    $instance = $instance ? $instance : 0;
     if( $instance === 0) $html ='<script>var playlist = []</script><div id="nm_jplayer" style="display:none"></div>';
     switch ($type) {
         case 'album':
             $data = $nmjson->netease_album($id);
             $songs = $data['songs'];
             $html .= nm_single_playform( $data['album_id'] , $instance , $data['album_cover'] , $data['album_title'] , $data['album_author'] , '' );
-            $html .= '<div class="nms-list" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
+            $class = nm_get_setting('listopen') ? '' : ' hide';
+
+            $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
             foreach ($songs as $key => $song) {
                 $html .= '<div class="nms-list-item">' . $song['title'] . ' - ' . $song['artist'] . '<span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
             }
@@ -73,9 +134,11 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
         case 'playlist':
             $data = $nmjson->netease_playlist($id);
             $songs = $data['songs'];
-            //var_dump($songs);
+
             $html .= nm_single_playform( $data['collect_id'] , $instance , $data['collect_cover'] , $data['collect_title'] , $data['collect_author'] , '' );
-            $html .= '<div class="nms-list" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
+            $class = nm_get_setting('listopen') ? '' : ' hide';
+
+            $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $instance . '" data-index="' . $instance . '">';
             foreach ($songs as $key => $song) {
                 $html .= '<div class="nms-list-item"><span class="song-info">' . $song['title'] . ' - ' . $song['artist'] . '</span><span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
             }

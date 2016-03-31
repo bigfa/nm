@@ -1,0 +1,16 @@
+/*
+* @Author: bigfa
+* @Date:   2016-03-27 16:11:37
+* @Last Modified by:   bigfa
+* @Last Modified time: 2016-03-27 16:12:28
+*/
+
+.nm-p-lists{
+  overflow:hidden;
+}
+
+.nm-p-item{
+  float:left;
+  margin-right: 10px;
+  width: 150px;
+}

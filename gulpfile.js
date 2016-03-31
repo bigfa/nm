@@ -30,6 +30,12 @@ gulp.task('less', function () {
 });
 
 gulp.task("uglify", function () {
+
+    gulp.src("static/js/setting.js")
+        .pipe(uglify())
+        .pipe(rename('setting.min.js'))
+        .pipe(gulp.dest("static/js"))
+
     gulp.src("static/js/single.js")
         .pipe(uglify())
         .pipe(rename('single.min.js'))

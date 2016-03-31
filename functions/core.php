@@ -137,10 +137,40 @@ function nm_player(){
 add_action('admin_menu', 'nm_menu');
 
 function nm_menu() {
-    add_options_page('网易云音乐设置', '网易云音乐设置', 'manage_options', basename(__FILE__), 'nm_setting_page');
+    add_menu_page( '网易云音乐', '网易云音乐', 'manage_options', 'neteasemusic', 'nm_setting_page' );
+    add_submenu_page( 'neteasemusic', '设置', '设置', 'manage_options', 'neteasemusic', 'nm_setting_page' );
+    //add_submenu_page( 'neteasemusic', '自定义歌单', '自定义歌单', 'manage_options', 'neteasemusic-list', 'nm_list_setting' );
+    //add_submenu_page( 'neteasemusic', '帮助', '帮助', 'manage_options', 'neteasemusic-help', 'nm_setting_page' );
     add_action( 'admin_init', 'nm_setting_group');
 }
 
+add_action('wp_ajax_nm_get','nm_get_callback');
+
+function nm_get_callback(){
+    echo json_encode(array('data'=>get_option('nm_pr_list')));
+    exit;
+}
+
+
+add_action('wp_ajax_nm_add','nm_add_callback');
+
+function nm_add_callback(){
+    global $nmjson;
+    $id = $_POST['url'];
+    //delete_option('nm_pr_list');
+    $lists = get_option('nm_pr_list') ? get_option('nm_pr_list') : array();
+    $album = $nmjson->netease_album($id);
+
+    $name = $album['album_title'];
+    $img = $album['album_cover'];
+    $ab = array('title' => $name ,'img' => $img );
+    $lists[] = $ab;
+
+    update_option( 'nm_pr_list',$lists);
+    header('Content-type: application/json');
+    echo json_encode(array('title'=>$name,'img'=>$album['album_cover']));
+    exit;
+}
 
 add_action( 'wp_ajax_nopriv_nmjson', 'nmjson_callback' );
 add_action( 'wp_ajax_nmjson', 'nmjson_callback' );
@@ -174,6 +204,10 @@ function get_pagelink(){
 
 function nm_setting_group() {
     register_setting( 'nm_setting_group', 'nm_setting' );
+}
+
+function nm_list_setting(){
+    @include 'nm-list.php';
 }
 
 function nm_setting_page(){

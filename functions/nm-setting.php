@@ -101,6 +101,15 @@
                 </td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="<?php echo nm_setting_key('listopen');?>">展开列表</label></th>
+                <td>
+                    <label for="<?php echo nm_setting_key('listopen');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('listopen');?>" id="listopen" value="1" <?php if(nm_get_setting("listopen")) echo 'checked="checked"';?>>
+                    </label>
+                    <p class="description">默认展开歌曲列表。</p>
+                </td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="<?php echo nm_setting_key('tworow');?>">歌曲列表三列</label></th>
                 <td>
                     <label for="<?php echo nm_setting_key('tworow');?>">

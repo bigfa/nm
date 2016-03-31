@@ -41,7 +41,7 @@
             $('.nms-list-item').removeClass('is-active');
             $('#nm-list-' + __NM.current + ' .nms-list-item').data('status','ready');
             $('#nm-player-' + __NM.current + ' .nmplayer-title').html(song.title + ' - ' + song.artist);
-            $('#nm-player-' + __NM.current + ' .duration').html(formatTime(song.duration));
+            $('#nm-player-' + __NM.current + ' .duration').html('--:--');
             $('#nm-player-' + __NM.current + ' .nms-play-btn').removeClass('nm-play').addClass('nm-pause');
             if( $('#nm-list-' + __NM.current).length > 0 ) {
                 $('#nm-list-' + __NM.current + ' .nms-list-item').eq(__NM.bomb).addClass('is-active');
@@ -164,6 +164,7 @@
                     l = parseInt(c.jPlayer.status.currentTime);
                     lrc[l] != undefined && ($('#nm-player-' + __NM.current + ' .nmsingle-lrc').html(lrc[l]));
                     $('#nm-player-' + __NM.current + ' .current-time').text(b);
+                    $('#nm-player-' + __NM.current + ' .duration').text(formatTime(c.jPlayer.status.duration));                   
                     $('#nm-player-' + __NM.current + ' .nmsingle-process-bar').css('transform','translateX(' + ( c.jPlayer.status.currentPercentAbsolute - 100 ) + '%)');
                 },
                 supplied: 'mp3',

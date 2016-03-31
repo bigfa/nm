@@ -15,3 +15,20 @@ function nm_scripts(){
     ));
 }
 add_action('wp_enqueue_scripts', 'nm_scripts', 20, 1);
+
+add_action('admin_enqueue_scripts', 'nm_admin_scripts', 20, 1);
+
+
+    function nm_admin_scripts() {
+        global $pagenow;
+
+        if ( $pagenow == "admin.php" && $_GET['page'] == 'neteasemusic-list' ) {
+            wp_enqueue_style( 'list', NM_URL . '/static/css/list.css', array(), NM_VERSION );
+                wp_enqueue_script( 'vuejs', NM_URL . '/static/js/vue.min.js', array(), NM_VERSION, true );
+                wp_enqueue_script( 'nm-setting' ,  NM_URL . '/static/js/setting' . $prefix . '.js', array(), NM_VERSION, true);
+                wp_localize_script( 'nm-setting', 'nm_ajax_url', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' =>wp_create_nonce('bigfa')
+    ));
+            }
+    }
