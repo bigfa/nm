@@ -57,7 +57,7 @@
             var nmPlayListContainer = $(".nm-songs");
             var is3 = nm_ajax_url.tworow ? ' threerow' : '';
             $('.nmplaybar').addClass('appear');
-            var nmPlayListSongslist = '<div class="fucker"></div><div class="nm-songs"><div class="nm-songs-title nm-container">' + info + '</div><div class="nm-songs-list nm-container"><ul class="nm-songlist' + is3 + '"></ul></div></div>';
+            var nmPlayListSongslist = '<div class="nm-songs"><div class="nm-songs-title nm-container">' + info + '</div><div class="nm-songs-list nm-container"><ul class="nm-songlist' + is3 + '"></ul></div></div>';
             nmPlayListContainer.remove();
             _self.parent().after(nmPlayListSongslist);
             __PUSSY.current = blackdick;

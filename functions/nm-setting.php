@@ -17,7 +17,6 @@
     <form method="post" action="options.php">
         <?php
         settings_fields( 'nm_setting_group' );
-        $setting = nm_get_setting();
         ?>
         <table class="form-table">
             <tbody>
@@ -57,7 +56,7 @@
                             ?>
                             <li class="nm-color-li">
                                 <code><?php echo $V['title'];?></code>
-                                <?php $color = $setting[$V['key']] ? $setting[$V['key']] : $V['default'];?>
+                                <?php $color = nm_get_setting($V['key']) ? nm_get_setting($V['key']) : $V['default'];?>
                                 <input name="<?php echo nm_setting_key($V['key']);?>" type="text" value="<?php echo $color;?>" id="nm-default-color" class="regular-text nm-color-picker" />
                             </li>
                         <?php }
