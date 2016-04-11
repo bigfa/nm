@@ -34,7 +34,7 @@ add_action( 'wp_ajax_get_music', 'netease_music_callback');
 function netease_music_callback(){
     $paged = $_POST["paged"];
     $max = $_POST["max"];
-    $content = get_netease_music($paged );
+    $content = nm_get_setting('privatelist') ? get_private_list( $paged ) : get_netease_music($paged );
     $nav = ( $max > $paged ) ? $paged + 1 : '';
     $data = array("status"=>200,"data"=>$content,"nav"=>$nav);
     echo json_encode($data);
