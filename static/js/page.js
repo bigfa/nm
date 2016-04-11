@@ -72,7 +72,8 @@
                 url: nm_ajax_url.ajax_url,
                 data: {
                     action: "nmjson",
-                    id: id
+                    id: id,
+                    type: _self.data('type'),
                 },
                 success: function(b) {
                     if (200 == b.msg) {                       

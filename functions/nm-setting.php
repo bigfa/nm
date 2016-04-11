@@ -82,6 +82,15 @@
                 </td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="<?php echo nm_setting_key('privatelist');?>">自定义歌单</label></th>
+                <td>
+                    <label for="<?php echo nm_setting_key('privatelist');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('privatelist');?>" id="privatelist" value="1" <?php if(nm_get_setting("privatelist")) echo 'checked="checked"';?>>
+                    </label>
+                    <p class="description">显示自定义歌单。</p>
+                </td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="<?php echo nm_setting_key('lyric');?>">歌词显示</label></th>
                 <td>
                     <label for="<?php echo nm_setting_key('lyric');?>">

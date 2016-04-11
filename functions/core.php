@@ -59,7 +59,7 @@ function netease_music_output(){
     $max_page = get_netease_max_page();
     $style = '<div id="nm-wrapper" class="nm-wrapper">';
     $output = $style;
-    $output .= get_netease_music();
+    $output .= nm_get_setting('privatelist') ? get_private_list() : get_netease_music();
     $output .= '</div><div class="music-page-navi">';
 
     if($max_page > 1) $output .= '<a class="nm-loadmore" data-action="get_music" data-paged="2" data-max="'.$max_page.'" href="javascript:;">加载更多音乐</a>';
@@ -73,14 +73,42 @@ function netease_music_output(){
 
 function get_netease_max_page(){
     global $nmjson;
-    $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
-    $contents = $nmjson->netease_user($userid);
-    array_shift($contents);
+    if ( nm_get_setting('privatelist') ) {
+      $contents = get_option('nm_pr_list');
+    } else {
+      $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
+      $contents = $nmjson->netease_user($userid);
+      array_shift($contents);
+    }
+    
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
     $count  = count($contents);
     $max_page = ceil($count/$per_page);
     return $max_page;
 }
+
+function get_private_list($paged = null){
+  global $nmjson;
+    $index = 0;
+        $row = nm_get_setting('number') ? nm_get_setting('number') : 4;
+
+    $contents = get_option('nm_pr_list');
+    $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
+    $count  = count($contents);
+    $max_page = ceil($count/$per_page);
+    $paged = $paged ? $paged : 1;
+    $contents = array_slice( $contents,( ( $paged-1 )* $per_page ), $per_page );
+    $css = 'nm-album-list nm-container';
+    $output = '<div class="'. $css .'">';
+    foreach($contents as $content){
+        $index ++;
+        $output .= '<div class="nm-list-item" data-type="album" data-id="'.$content['id'].'"><div class="nm-list-content"><img class="music-cover" src="'.$content['img'].'"><span class="music-info">'.$content['title'] . '</span></div></div>';
+
+        if( $index%$row==0 && $index < $per_page) $output .= '</div><div class="'. $css .'">';
+    }
+    $output .='</div>';
+    return $output;
+};
 
 function get_netease_music($paged = null){
     global $nmjson;
@@ -139,38 +167,12 @@ add_action('admin_menu', 'nm_menu');
 function nm_menu() {
     add_menu_page( '网易云音乐', '网易云音乐', 'manage_options', 'neteasemusic', 'nm_setting_page' );
     add_submenu_page( 'neteasemusic', '设置', '设置', 'manage_options', 'neteasemusic', 'nm_setting_page' );
-    //add_submenu_page( 'neteasemusic', '自定义歌单', '自定义歌单', 'manage_options', 'neteasemusic-list', 'nm_list_setting' );
+    add_submenu_page( 'neteasemusic', '自定义歌单', '自定义歌单', 'manage_options', 'neteasemusic-list', 'nm_list_setting' );
     //add_submenu_page( 'neteasemusic', '帮助', '帮助', 'manage_options', 'neteasemusic-help', 'nm_setting_page' );
     add_action( 'admin_init', 'nm_setting_group');
 }
 
 add_action('wp_ajax_nm_get','nm_get_callback');
-
-function nm_get_callback(){
-    echo json_encode(array('data'=>get_option('nm_pr_list')));
-    exit;
-}
-
-
-add_action('wp_ajax_nm_add','nm_add_callback');
-
-function nm_add_callback(){
-    global $nmjson;
-    $id = $_POST['url'];
-    //delete_option('nm_pr_list');
-    $lists = get_option('nm_pr_list') ? get_option('nm_pr_list') : array();
-    $album = $nmjson->netease_album($id);
-
-    $name = $album['album_title'];
-    $img = $album['album_cover'];
-    $ab = array('title' => $name ,'img' => $img );
-    $lists[] = $ab;
-
-    update_option( 'nm_pr_list',$lists);
-    header('Content-type: application/json');
-    echo json_encode(array('title'=>$name,'img'=>$album['album_cover']));
-    exit;
-}
 
 add_action( 'wp_ajax_nopriv_nmjson', 'nmjson_callback' );
 add_action( 'wp_ajax_nmjson', 'nmjson_callback' );
@@ -180,7 +182,11 @@ function nmjson_callback() {
     $id = $_POST['id'];
     $type = $_POST['type'];
 
-    $song = $nmjson->netease_playlist($id);
+    if ( $type == 'album' ) {
+       $song = $nmjson->netease_album($id);
+    } else {
+       $song = $nmjson->netease_playlist($id);
+    }
 
     $result = array(
         'msg' => 200,

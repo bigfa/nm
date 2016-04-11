@@ -11,6 +11,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
+注意：网易已封锁海外IP，海外服务器无法单曲无法正常播放，如插入单曲请使用虾米音乐源。
+
 演示地址:https://galfond.com/music
 
 插件使用帮助：https://fatesinger.com/74369
@@ -28,6 +30,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 2.0.6 =
+* 增加自定义歌单功能
+
+= 2.0.5 =
+* 修复后台设置无法修改id的bug
+
 = 2.0.4 =
 * 增加虾米音乐支持
 

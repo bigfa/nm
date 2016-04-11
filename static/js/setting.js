@@ -2,7 +2,7 @@
 * @Author: bigfa
 * @Date:   2016-03-27 15:09:43
 * @Last Modified by:   bigfa
-* @Last Modified time: 2016-03-27 18:02:36
+* @Last Modified time: 2016-04-11 12:43:58
 */
 
 'use strict';
@@ -17,10 +17,30 @@ var nmPrivateList = new Vue({
   },
   methods: {
     greet: function (event) {
-      // 方法内 `this` 指向 vm
-      alert('Hello ' + this.name + '!')
-      // `event` 是原生 DOM 事件
-      alert(event.target.tagName)
+      var _dom = $(event.target);
+      var id = _dom.data('id');
+      console.log(id);
+      var data = 'id=' + id + '&action=nm_delete';
+    $.ajax({
+      url: nm_ajax_url.ajax_url,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      success:function(data){
+        if ( data.status == 500 ) {
+          alert(data.message);
+        } else {
+          for (var i = 0;i< nmPrivateList.items.length; i++) {
+            console.log(nmPrivateList.items[i].id);
+            if ( nmPrivateList.items[i].id == id){
+              return nmPrivateList.items.splice(i, 1);
+            }
+            
+          }
+        }
+      
+      }
+    });
     }
   }
 });
@@ -30,8 +50,11 @@ $.ajax({
       type: 'GET',
       dataType: 'json',
       success:function(data){
-        console.log(data.data);
-      nmPrivateList.items = data.data;
+        var arr = [];
+       var array = $.map(data.data, function(value, index) {
+    arr.push(value);
+});
+      nmPrivateList.items = arr;
       }
     });
 
@@ -39,26 +62,25 @@ $.ajax({
 
   $form.on('submit',function(e){
     e.preventDefault();
-
-    var me = new RegExp('#http:\/\/music\.163\.com\/\#\/(\w+)\?id=(\d+)#i');
-
-    return console.log($('#ssfgg').val().match(me));
-
-    if ( !me.match($('#ssfgg').val()) ) return alert('sss');
-
-    var data = $form.serialize() + '&action=nm_add';
-    console.log(data);
+    var a = $('#ssfgg').val();
+    a = a.match(/album\?id=(\d+)/gi);
+    if ( !a.length ) return alert('输出正确的地址');
+    var id = a[0].replace(/album\?id=/g, "");
+    var data = 'id=' + id + '&action=nm_add';
     $.ajax({
       url: nm_ajax_url.ajax_url,
       type: 'POST',
       dataType: 'json',
       data: data,
       success:function(data){
-        console.log("success");
-      nmPrivateList.items.push(data);
+        if ( data.status == 500 ) {
+          alert(data.message);
+        } else {
+          nmPrivateList.items.push(data.data);
+        }
+      
       }
     });
-    
   })
 
 }(jQuery);
