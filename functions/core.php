@@ -74,13 +74,13 @@ function netease_music_output(){
 function get_netease_max_page(){
     global $nmjson;
     if ( nm_get_setting('privatelist') ) {
-      $contents = get_option('nm_pr_list');
+        $contents = get_option('nm_pr_list');
     } else {
-      $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
-      $contents = $nmjson->netease_user($userid);
-      array_shift($contents);
+        $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
+        $contents = $nmjson->netease_user($userid);
+        array_shift($contents);
     }
-    
+
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
     $count  = count($contents);
     $max_page = ceil($count/$per_page);
@@ -88,10 +88,9 @@ function get_netease_max_page(){
 }
 
 function get_private_list($paged = null){
-  global $nmjson;
+    global $nmjson;
     $index = 0;
-        $row = nm_get_setting('number') ? nm_get_setting('number') : 4;
-
+    $row = 4;
     $contents = get_option('nm_pr_list');
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
     $count  = count($contents);
@@ -165,7 +164,7 @@ function nm_player(){
 add_action('admin_menu', 'nm_menu');
 
 function nm_menu() {
-    add_menu_page( '网易云音乐', '网易云音乐', 'manage_options', 'neteasemusic', 'nm_setting_page' );
+    add_menu_page( 'neteasemusic', '网易云音乐', 'manage_options', 'neteasemusic', 'nm_setting_page' );
     add_submenu_page( 'neteasemusic', '设置', '设置', 'manage_options', 'neteasemusic', 'nm_setting_page' );
     add_submenu_page( 'neteasemusic', '自定义歌单', '自定义歌单', 'manage_options', 'neteasemusic-list', 'nm_list_setting' );
     //add_submenu_page( 'neteasemusic', '帮助', '帮助', 'manage_options', 'neteasemusic-help', 'nm_setting_page' );
@@ -183,9 +182,9 @@ function nmjson_callback() {
     $type = $_POST['type'];
 
     if ( $type == 'album' ) {
-       $song = $nmjson->netease_album($id);
+        $song = $nmjson->netease_album($id);
     } else {
-       $song = $nmjson->netease_playlist($id);
+        $song = $nmjson->netease_playlist($id);
     }
 
     $result = array(
@@ -244,4 +243,3 @@ function nm_update_setting($setting){
     update_option('nm_setting', $setting);
 }
 
-require NM_PATH . '/functions/static.php';

@@ -10,7 +10,7 @@
     </div>
         <form id="nm-form" class="nm-form">
           <p class="nm-form-note">请输入网易云音乐专辑链接，如<code>http://music.163.com/#/album?id=3029801</code>，然后点击添加专辑。</p>
-        <input id="ssfgg" name="url" type="text" class="nm-form-textInput">
+        <input name="url" type="text" class="nm-form-textInput">
         <input type="submit" value="添加专辑"  class="nm-form-submit">
         <p class="loading-info hide">数据获取中</p>
     </form>

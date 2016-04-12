@@ -115,6 +115,35 @@ class nmjson{
         return false;
     }
 
+    public function netease_oversea_song($music_id)
+    {
+        $key = "/netease/song/$music_id";
+
+        //$cache = $this->get_cache($key);
+        if( $cache ) return $cache;
+
+        $url = "http://music.163.com/api/song/detail/?id=" . $music_id . "&ids=%5B" . $music_id . "%5D";
+        $response = $this->netease_http($url);
+
+        if( $response["code"]==200 && $response["songs"] ){
+            $album_id = $response["songs"][0]["album"]['id'];
+
+            $album = $this->netease_album($album_id);
+
+            $songs = $album['songs'];
+
+            foreach ($songs as $key => $song) {
+                if ( $song['id'] == $music_id ) $result = $song;
+            }
+
+            $result['cover'] = $response["songs"][0]["album"]["picUrl"];
+            $this->set_cache($key, $result);
+
+            return $result;
+        }
+
+        return false;
+    }
     public function netease_song($music_id)
     {
         $key = "/netease/song/$music_id";
@@ -126,7 +155,7 @@ class nmjson{
         $response = $this->netease_http($url);
 
         if( $response["code"]==200 && $response["songs"] ){
-            //print_r($response["songs"]);
+            //print_r($response["songs"][0]["album"]['id']);
             //处理音乐信息
             $mp3_url = $response["songs"][0]["mp3Url"];
             $mp3_url = str_replace("http://m", "http://p", $mp3_url);
@@ -134,7 +163,6 @@ class nmjson{
             $mp3_cover = $response["songs"][0]["album"]["picUrl"];
             $song_duration = $response["songs"][0]["duration"];
             $artists = array();
-
             foreach ($response["songs"][0]["artists"] as $artist) {
                 $artists[] = $artist["name"];
             }

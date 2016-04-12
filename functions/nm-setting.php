@@ -1,5 +1,5 @@
 <div class="wrap">
-    <div id="icon-options-general" class="icon32"><br></div><h2>插件设置</h2><br>
+    <div id="icon-options-general" class="icon32"><br></div><h2>插件设置</h2>
     <?php
     if (isset($_POST["cleancache"]) && check_admin_referer('nm-cleancache')) {
         if( nm_get_setting("objcache") ){
@@ -35,11 +35,6 @@
                                 'title' => '帐号ID',
                                 'key' => 'id',
                                 'default' => '30829298'
-                            ),
-                            array(
-                                'title' => '每行显示专辑数量',
-                                'key' => 'number',
-                                'default' => '4'
                             ),
                             array(
                                 'title' => '每页显示专辑数量',
@@ -79,6 +74,15 @@
                         }
                         ?>
                     </select>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><label for="<?php echo nm_setting_key('oversea');?>">海外服务器</label></th>
+                <td>
+                    <label for="<?php echo nm_setting_key('oversea');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('oversea');?>" id="oversea" value="1" <?php if(nm_get_setting("oversea")) echo 'checked="checked"';?>>
+                    </label>
+                    <p class="description">海外服务器勾选此项。</p>
                 </td>
             </tr>
             <tr valign="top">
@@ -123,6 +127,7 @@
                     <label for="<?php echo nm_setting_key('tworow');?>">
                         <input type="checkbox" name="<?php echo nm_setting_key('tworow');?>" id="tworow" value="1" <?php if(nm_get_setting("tworow")) echo 'checked="checked"';?>>
                     </label>
+                    <p class="description">歌单列表三列显示。</p>
                 </td>
             </tr>
             <tr valign="top">
@@ -131,6 +136,7 @@
                     <label for="<?php echo nm_setting_key('objcache');?>">
                         <input type="checkbox" name="<?php echo nm_setting_key('objcache');?>" id="objcache" value="1" <?php if(nm_get_setting("objcache")) echo 'checked="checked"';?>>
                     </label>
+                    <p class="description">需服务器开启memcached或者redis。</p>
                 </td>
             </tr>
             </tbody>

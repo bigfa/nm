@@ -119,7 +119,7 @@ function wp_embed_handler_neteasemusicalbum( $matches, $attr, $url, $rawattr ) {
             break;
 
         case 'song':
-            $data = $nmjson->netease_song($id);
+            $data = nm_get_setting('oversea') ? $nmjson->netease_oversea_song($id) : $nmjson->netease_song($id);
             $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
             if( nm_get_setting("comment") ) $comments = $nmjson->comments($id);
             if (!empty($comments)) :
