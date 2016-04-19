@@ -30,3 +30,8 @@ function nm_admin_scripts() {
 
 add_action('wp_enqueue_scripts', 'nm_scripts', 20, 1);
 add_action('admin_enqueue_scripts', 'nm_admin_scripts', 20, 1);
+
+function nm_style(){
+    if ( nm_get_setting('max-width') ) echo  '<style>.sss{max-widht:' . nm_get_setting('max-width') . 'px}</style>';
+}
+add_action('wp_head','nm_style');

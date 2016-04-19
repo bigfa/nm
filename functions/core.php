@@ -78,7 +78,8 @@ function get_netease_max_page(){
     } else {
         $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
         $contents = $nmjson->netease_user($userid);
-        array_shift($contents);
+        if (!$contents ) return;
+        if(!nm_get_setting('likedsongs')) array_shift($contents);
     }
 
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
@@ -113,9 +114,11 @@ function get_netease_music($paged = null){
     global $nmjson;
     $index = 0;
     $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
+    $userid = trim($userid);
     $row = nm_get_setting('number') ? nm_get_setting('number') : 4;
     $contents = $nmjson->netease_user($userid);
-    array_shift($contents);
+    if( !$contents ) return '<div class="nm-error">获取歌单失败，请确认用户id是否正确。</div>';
+    if(!nm_get_setting('likedsongs')) array_shift($contents);
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
     $count  = count($contents);
     $max_page = ceil($count/$per_page);

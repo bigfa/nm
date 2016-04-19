@@ -119,7 +119,7 @@ class nmjson{
     {
         $key = "/netease/song/$music_id";
 
-        //$cache = $this->get_cache($key);
+        $cache = $this->get_cache($key);
         if( $cache ) return $cache;
 
         $url = "http://music.163.com/api/song/detail/?id=" . $music_id . "&ids=%5B" . $music_id . "%5D";

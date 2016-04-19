@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-注意：网易已封锁海外IP，海外服务器无法单曲无法正常播放，如插入单曲请使用虾米音乐源。
+已修复网易封锁海外IP的问题。
 
 演示地址:https://galfond.com/music
 
@@ -30,6 +30,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 2.0.9 =
+* 增加一个播放器宽度控制选项
+* 添加了数据异常时的警示信息
+
+= 2.0.8 =
+* 增加一个是否显示喜欢的音乐选项
+
 = 2.0.7 =
 * 修复海外服务器无法播放单曲的问题
 

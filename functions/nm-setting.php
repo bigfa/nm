@@ -42,6 +42,11 @@
                                 'default' => '12'
                             ),
                             array(
+                                'title' => '播放器最大宽度',
+                                'key' => 'max-width',
+                                'default' => ''
+                            ),
+                            array(
                                 'title' => '数据缓存时间',
                                 'key' => 'cachetime',
                                 'default' => '604800'
@@ -101,6 +106,15 @@
                         <input type="checkbox" name="<?php echo nm_setting_key('lyric');?>" id="lyric" value="1" <?php if(nm_get_setting("lyric")) echo 'checked="checked"';?>>
                     </label>
                     <p class="description">因为歌词是单独获取的，如果歌单中歌曲过多速度会很慢。</p>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><label for="<?php echo nm_setting_key('likedsongs');?>">显示喜欢的音乐</label></th>
+                <td>
+                    <label for="<?php echo nm_setting_key('likedsongs');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('likedsongs');?>" id="likedsongs" value="1" <?php if(nm_get_setting("likedsongs")) echo 'checked="checked"';?>>
+                    </label>
+                    <p class="description">显示喜欢的音乐，默认隐藏。</p>
                 </td>
             </tr>
             <tr valign="top">
