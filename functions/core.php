@@ -75,6 +75,7 @@ function get_netease_max_page(){
     global $nmjson;
     if ( nm_get_setting('privatelist') ) {
         $contents = get_option('nm_pr_list');
+        if (!$contents ) return;
     } else {
         $userid = nm_get_setting('id') ? nm_get_setting('id') : 30829298;
         $contents = $nmjson->netease_user($userid);
@@ -93,6 +94,7 @@ function get_private_list($paged = null){
     $index = 0;
     $row = 4;
     $contents = get_option('nm_pr_list');
+    if (empty($contents)) return '<div class="nm-error">无数据，请在后台创建自定义歌单。</div>';
     $per_page = nm_get_setting('perpage') ? nm_get_setting('perpage') : 16;
     $count  = count($contents);
     $max_page = ceil($count/$per_page);
