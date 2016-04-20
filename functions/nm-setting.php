@@ -66,6 +66,13 @@
                 </td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="url">自定义CSS</label></th>
+                <td>
+                    <textarea name="<?php echo nm_setting_key('css');?>" class="nm-textarea"><?php echo nm_get_setting('css');?></textarea>
+                    <p class="description">请输入合法的CSS。</p>
+                </td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="url">音乐页面地址</label></th>
                 <td>
                     <select name="<?php echo nm_setting_key('pagename');?>" id="pagename">
@@ -168,5 +175,9 @@
     <style>
         .nm-color-li{position: relative;padding-left: 120px;}
         .nm-color-li code{position: absolute;left: 0;top: 1px;}
+        .nm-textarea {
+            width:600px;
+            height:120px;
+        }
     </style>
 </div>

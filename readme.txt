@@ -32,6 +32,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Changelog ==
 = 2.0.10 =
 * 错误修复
+* 增加自定义CSS功能
 
 = 2.0.9 =
 * 增加一个播放器宽度控制选项
