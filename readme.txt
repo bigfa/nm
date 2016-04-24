@@ -2,7 +2,7 @@
 Contributors: bigfa
 Tags: wordpress, 163,music ,网易云音乐, 虾米音乐
 Requires at least: 4.0
-Tested up to: 4.6
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,16 +13,16 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 已修复网易封锁海外IP的问题。
 
-演示地址:https://galfond.com/music
+演示地址:[https://galfond.com/music](https://galfond.com/music)
 
-插件使用帮助：https://fatesinger.com/74369
+插件使用帮助：[https://fatesinger.com/74369](https://fatesinger.com/74369)
 
 == Installation ==
 
 1. 上传 `neatease-music`目录 到 `/wp-content/plugins/` 目录或后台搜索netease music
 2. 在后台插件菜单激活该插件
 3. 后台填写你的网易云音乐用户ID
-4. 直接使用短代码[nm]，或者在需要的地方使用插入`netease_music()`，或者在插件设置页面直接选择页面
+4. 直接使用短代码`[nm]`，或者在需要的地方使用插入`netease_music()`，或者在插件设置页面直接选择页面
 
 
 == Frequently asked questions ==
@@ -30,6 +30,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 2.0.11 =
+* 样式改进
+
 = 2.0.10 =
 * 错误修复
 * 增加自定义CSS功能
@@ -129,6 +132,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 * 调用Wordpress 自带jquery库
 
 = 1.0.0 =
-* 最初0.0.1版本发布
+* 最初版本发布
 
 == Upgrade notice ==
