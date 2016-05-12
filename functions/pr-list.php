@@ -22,27 +22,30 @@ add_action('wp_ajax_nm_add','nm_add_callback');
 function nm_add_callback(){
     global $nmjson;
     $id = $_POST['id'];
+    $type = $_POST['type'];
+    //delete_option( 'nm_pr_list');
     if ( nm_is_added($id) ) {
         echo json_encode(array('status'=>500,'message'=>'existed.'));
         exit;
     }
 
     $lists = get_option('nm_pr_list') ? get_option('nm_pr_list') : array();
-    $album = $nmjson->netease_album($id);
+    $album = ( $type == 'playlist' ) ? $nmjson->netease_playlist($id) : $nmjson->netease_album($id);
 
     if ( empty($album) ) {
         echo json_encode(array('status'=>500,'message'=>'album not existed'));
         exit;
     }
 
-    $name = $album['album_title'];
-    $img = $album['album_cover'];
-    $ab = array('id'=> $album['album_id'],'title' => $name ,'img' => $img );
+
+    $name = ( $type == 'playlist' ) ? $album['collect_title'] : $album['album_title'];
+    $img = ( $type == 'playlist' ) ? $album['collect_cover'] : $album['album_cover'];
+    $ab = array('id'=> $id,'title' => $name ,'img' => $img , 'type' => $type );
     $lists[] = $ab;
 
     update_option( 'nm_pr_list',$lists);
     header('Content-type: application/json');
-    echo json_encode(array('status'=>200,'data'=>array('id'=>$album['album_id'],'title'=>$name,'img'=>$album['album_cover'])));
+    echo json_encode(array('status'=>200,'data'=>array('id'=>$album['album_id'],'title'=>$name,'img'=>$img)));
     exit;
 }
 

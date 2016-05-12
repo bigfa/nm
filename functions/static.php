@@ -11,6 +11,8 @@ function nm_scripts(){
         'swfurl' => NM_URL . '/build/js/jquery.jplayer.swf',
         'nonce' =>wp_create_nonce('bigfa'),
         'tworow' =>nm_get_setting('tworow'),
+        'token' => 'https://fatesinger.com/74369',
+        'message' => '文件损坏，请检查插件的完整性。',
     ));
 }
 
@@ -23,7 +25,8 @@ function nm_admin_scripts() {
         wp_enqueue_script( 'nm-setting' ,  NM_URL . '/build/js/setting.min.js', array(), NM_VERSION, true);
         wp_localize_script( 'nm-setting', 'nm_ajax_url', array(
             'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce' =>wp_create_nonce('bigfa')
+            'nonce' =>wp_create_nonce('bigfa'),
+            'token' => 'https://fatesinger.com/74369',
         ));
     }
 }

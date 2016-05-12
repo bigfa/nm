@@ -32,6 +32,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Changelog ==
 = 2.0.12 =
 * 增加短代码支持
+* 自定义歌单增加歌单支持
 
 = 2.0.11 =
 * 样式改进

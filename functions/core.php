@@ -65,7 +65,7 @@ function netease_music_output(){
     if($max_page > 1) $output .= '<a class="nm-loadmore" data-action="get_music" data-paged="2" data-max="'.$max_page.'" href="javascript:;">加载更多音乐</a>';
 
 
-    $output .='</div><div class="nm-copyright"><i class="fxfont nm-note"></i> <a href="http://fatesinger.com/74369" target="_blank" title="网易云音乐">网易云音乐</a></div>';
+    $output .='</div><div class="nm-copyright"><i class="fxfont nm-note"></i> <a href="https://fatesinger.com/74369" target="_blank" title="网易云音乐">网易云音乐</a></div>';
     return $output;
 
 
@@ -104,7 +104,8 @@ function get_private_list($paged = null){
     $output = '<div class="'. $css .'">';
     foreach($contents as $content){
         $index ++;
-        $output .= '<div class="nm-list-item" data-type="album" data-id="'.$content['id'].'"><div class="nm-list-content"><img class="music-cover" src="'.$content['img'].'"><span class="music-info">'.$content['title'] . '</span></div></div>';
+        $type = $content['type'] ? $content['type'] : 'album';
+        $output .= '<div class="nm-list-item" data-type="' . $type . '" data-id="'.$content['id'].'"><div class="nm-list-content"><img class="music-cover" src="'.$content['img'].'"><span class="music-info">'.$content['title'] . '</span></div></div>';
 
         if( $index%$row==0 && $index < $per_page) $output .= '</div><div class="'. $css .'">';
     }
