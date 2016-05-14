@@ -56,7 +56,14 @@ function nm_generate_player( $source = null,$type = null, $id = null){
             case 'song':
                 $data = nm_get_setting('oversea') ? $nmjson->netease_oversea_song($id) : $nmjson->netease_song($id);
                 $html .= nm_single_playform( $data['id'] , $instance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
-
+                if( nm_get_setting("comment") ) $comments = $nmjson->comments($id);
+                if (!empty($comments)) :
+                    $html .= '<div class="nmhotcom"><span class="com-close">X</span><div class="nmhc-title">网易热评</div>';
+                    foreach ($comments as $key => $comment) {
+                        $html .= '<div class="nmh-item"><span style="background-image:url(' . $comment['user']['avatarUrl'] . '?param=48x48)" class="nmu-avatar"></span><span class="nmu-name">' . $comment['user']['nickname'] . '</span>:' .$comment['content'] . '</div>';
+                    }
+                    $html .= '</div>';
+                endif;
 
                 $html .= '<script>playlist.push(' . json_encode(array($data)). ');</script>';
                 break;
