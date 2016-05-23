@@ -9,9 +9,9 @@
   </div>
     </div>
         <form id="nm-form" class="nm-form">
-          <p class="nm-form-note">请输入网易云音乐专辑链接，如<code>http://music.163.com/#/album?id=3029801</code>，然后点击添加专辑。</p>
+        <p class="nm-form-note">请输入网易云音乐专辑或歌单链接，如<code>http://music.163.com/#/album?id=3029801</code>或者<code>http://music.163.com/#/playlist?id=383865604</code>，然后点击添加音乐。</p>
         <input name="url" type="text" class="nm-form-textInput">
-        <input type="submit" value="添加专辑"  class="nm-form-submit">
+        <input type="submit" value="添加音乐"  class="nm-form-submit">
         <p class="loading-info hide">数据获取中</p>
     </form>
 
