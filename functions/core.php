@@ -9,6 +9,13 @@ function nm_shortcode( $atts, $content = null ) {
     return netease_music_output();
 }
 
+function nm_notice(){
+    add_thickbox();
+    echo '<div class="updated">
+    <p>您的服务器不支持curl，请确认。</p></div>';
+}
+if ( !is_callable ( 'curl_init' ) ) add_action( 'admin_notices', 'nm_notice' );
+
 add_action('template_redirect', 'netease_music_template', 1 );
 function netease_music_template(){
     $page_id = nm_get_setting("pagename");
