@@ -32,11 +32,6 @@
                     <ul class="nm-color-ul">
                         <?php $color = array(
                             array(
-                                'title' => '帐号ID',
-                                'key' => 'id',
-                                'default' => '30829298'
-                            ),
-                            array(
                                 'title' => '每页显示专辑数量',
                                 'key' => 'perpage',
                                 'default' => '12'
@@ -62,7 +57,6 @@
                         <?php }
                         ?>
                     </ul>
-                    <p class="description">点击你的个人主页，URL类似为<code>http://music.163.com/#/user/home?id=30829298</code>，<code>30829298</code>就是你的ID</p>
                 </td>
             </tr>
             <tr valign="top">
@@ -86,42 +80,6 @@
                         }
                         ?>
                     </select>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('oversea');?>">海外服务器</label></th>
-                <td>
-                    <label for="<?php echo nm_setting_key('oversea');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('oversea');?>" id="oversea" value="1" <?php if(nm_get_setting("oversea")) echo 'checked="checked"';?>>
-                    </label>
-                    <p class="description">海外服务器勾选此项。</p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('privatelist');?>">自定义歌单</label></th>
-                <td>
-                    <label for="<?php echo nm_setting_key('privatelist');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('privatelist');?>" id="privatelist" value="1" <?php if(nm_get_setting("privatelist")) echo 'checked="checked"';?>>
-                    </label>
-                    <p class="description">显示自定义歌单。</p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('lyric');?>">歌词显示</label></th>
-                <td>
-                    <label for="<?php echo nm_setting_key('lyric');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('lyric');?>" id="lyric" value="1" <?php if(nm_get_setting("lyric")) echo 'checked="checked"';?>>
-                    </label>
-                    <p class="description">因为歌词是单独获取的，如果歌单中歌曲过多速度会很慢。</p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('likedsongs');?>">显示喜欢的音乐</label></th>
-                <td>
-                    <label for="<?php echo nm_setting_key('likedsongs');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('likedsongs');?>" id="likedsongs" value="1" <?php if(nm_get_setting("likedsongs")) echo 'checked="checked"';?>>
-                    </label>
-                    <p class="description">显示喜欢的音乐，默认隐藏。</p>
                 </td>
             </tr>
             <tr valign="top">
