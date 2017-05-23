@@ -5,7 +5,32 @@ class nmjson{
         require('Meting.php');
     }
 
-
+    public function song_url($site, $music_id)
+    {
+        $cacheKey = "/$site/song_url/$music_id";
+        $url = $this->get_cache($cacheKey);
+        if ($url) {
+            Header("X-Hermit-Cached: From Cache");
+            Header("Location: " . $url);
+            exit;
+        }
+        $Meting = new \Metowolf\Meting($site);
+        $i = ($site !== "netease") ? 1 : -1;
+        while(substr($url, 0, 10) !== 'https://m8' && ($i++ < 2)){
+            $url = json_decode($Meting->format()->url($music_id, 320), true);
+            $url = $url['url'];
+            if (empty($url)) {
+                Header("Location: " . "https://api.lwl12.com/music/$site/song?id=" . $music_id);
+                exit;
+            }
+        }
+        if($i > 0 && $site === "netease") Header("X-Hermit-Retrys: $i");
+        if($site === "netease") $url = str_replace('http://m7', 'https://m8', $url);
+        if($site === "xiami") $url = str_replace('http://', 'https://', $url);
+        $this->set_cache($cacheKey, $url, 0.25);
+        Header("Location: " . $url);
+        exit;
+    }
     public function xiami_song($song_id)
     {
         $cache_key = "/xiami/song/" . $song_id;
@@ -167,11 +192,7 @@ class nmjson{
             foreach ($response["songs"][0]["artists"] as $artist) {
                 $artists[] = $artist["name"];
             }
-            $Meting = new \Metowolf\Meting('netease');
-            $mp3_url = json_decode($Meting->format()->url($music_id,320),true);
-            //var_dump($mp3_url);
-            $mp3_url = $mp3_url['url'];
-            $mp3_url = str_replace("http:", "", $mp3_url);
+            $mp3_url = admin_url('admin-ajax.php') . '?action=nmjson&type=song_url&id=' . $music_id;
             $artists = implode(",", $artists);
             $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $music_id ) : "";
             $result = array(
@@ -241,11 +262,7 @@ class nmjson{
 
             foreach($result as $k => $value){
                 //$mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
-                $Meting = new \Metowolf\Meting('netease');
-                $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
-            //var_dump($mp3_url);
-                $mp3_url = $mp3_url['url'];
-                $mp3_url = str_replace("http:", "", $mp3_url);
+                $mp3_url = admin_url('admin-ajax.php') . '?action=nmjson&type=song_url&id=' . $value["id"];
                 $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $value["id"]) : "";
                 $album["songs"][] = array(
                     "id" => $value["id"],
@@ -296,11 +313,8 @@ class nmjson{
 
             foreach($result as $k => $value){
                 //$mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
-                $Meting = new \Metowolf\Meting('netease');
-                $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
-            //var_dump($mp3_url);
-                $mp3_url = $mp3_url['url'];
-                $mp3_url = str_replace("http:", "", $mp3_url);
+
+                $mp3_url = admin_url('admin-ajax.php') . '?action=nmjson&type=song_url&id=' . $value["id"];
                 $artists = array();
                 foreach ($value["artists"] as $artist) {
                     $artists[] = $artist["name"];

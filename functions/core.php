@@ -191,11 +191,13 @@ add_action( 'wp_ajax_nmjson', 'nmjson_callback' );
 function nmjson_callback() {
     global $nmjson;
 
-    $id = $_POST['id'];
-    $type = $_POST['type'];
+    $id = $_GET['id'];
+    $type = $_GET['type'];
 
     if ( $type == 'album' ) {
         $song = $nmjson->netease_album($id);
+    } elseif ( $type == 'song_url' ) {
+        $song = $nmjson->song_url('netease',$id);
     } else {
         $song = $nmjson->netease_playlist($id);
     }
