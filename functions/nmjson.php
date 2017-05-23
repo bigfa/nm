@@ -161,7 +161,7 @@ class nmjson{
             $mp3_url = $response["songs"][0]["mp3Url"];
             $mp3_url = str_replace("http://m", "http://p", $mp3_url);
             $music_name = $response["songs"][0]["name"];
-            $mp3_cover = $response["songs"][0]["album"]["picUrl"];
+            $mp3_cover = str_replace("http://", "//", $response["songs"][0]["album"]["picUrl"]);
             $song_duration = $response["songs"][0]["duration"];
             $artists = array();
             foreach ($response["songs"][0]["artists"] as $artist) {
@@ -171,6 +171,7 @@ class nmjson{
             $mp3_url = json_decode($Meting->format()->url($music_id,320),true);
             //var_dump($mp3_url);
             $mp3_url = $mp3_url['url'];
+            $mp3_url = str_replace("http:", "", $mp3_url);
             $artists = implode(",", $artists);
             $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $music_id ) : "";
             $result = array(
@@ -228,7 +229,7 @@ class nmjson{
 
             $album_name = $response["album"]["name"];
             $album_author = $response["album"]["artist"]["name"];
-            $album_cover = $response["album"]["blurPicUrl"];
+            $album_cover = str_replace("http://", "//", $response["album"]["blurPicUrl"]);
             $album = array(
                 "album_id" => $album_id,
                 "album_title" => $album_name,
@@ -244,6 +245,7 @@ class nmjson{
                 $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
             //var_dump($mp3_url);
                 $mp3_url = $mp3_url['url'];
+                $mp3_url = str_replace("http:", "", $mp3_url);
                 $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $value["id"]) : "";
                 $album["songs"][] = array(
                     "id" => $value["id"],
@@ -289,7 +291,7 @@ class nmjson{
                 "collect_author" => $collect_author,
                 "collect_type" => "collects",
                 "collect_count" => $count,
-                "collect_cover" => $response["result"]["coverImgUrl"]
+                "collect_cover" => str_replace("http://", "//", $response["result"]["coverImgUrl"])
             );
 
             foreach($result as $k => $value){
@@ -298,6 +300,7 @@ class nmjson{
                 $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
             //var_dump($mp3_url);
                 $mp3_url = $mp3_url['url'];
+                $mp3_url = str_replace("http:", "", $mp3_url);
                 $artists = array();
                 foreach ($value["artists"] as $artist) {
                     $artists[] = $artist["name"];
@@ -339,7 +342,7 @@ class nmjson{
                 $userplaylist[] = array(
                     "playlist_id" => $playlist["id"],
                     "playlist_name" => $playlist["name"],
-                    "playlist_coverImgUrl" => $playlist["coverImgUrl"]
+                    "playlist_coverImgUrl" => $mp3_cover = str_replace("http://", "//", $playlist["coverImgUrl"])
                 );
 
 

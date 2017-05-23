@@ -32,6 +32,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 3.0.2 =
+* https 支持
+
 = 3.0.1 =
 * 错误修复
 
