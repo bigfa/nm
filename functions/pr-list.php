@@ -30,7 +30,7 @@ function nm_add_callback(){
     }
 
     $lists = get_option('nm_pr_list') ? get_option('nm_pr_list') : array();
-    $album = ( $type == 'collect' ) ? $nmjson->xiami_collect($id) : $nmjson->xiami_album($id);
+    $album = ( $type == 'playlist' ) ? $nmjson->netease_playlist($id) : $nmjson->netease_album($id);
 
     if ( empty($album) ) {
         echo json_encode(array('status'=>500,'message'=>'album not existed'));
@@ -38,8 +38,8 @@ function nm_add_callback(){
     }
 
 
-    $name = ( $type == 'collect' ) ? $album['collect_title'] : $album['album_title'];
-    $img = ( $type == 'collect' ) ? $album['collect_cover'] : $album['album_cover'];
+    $name = ( $type == 'playlist' ) ? $album['collect_title'] : $album['album_title'];
+    $img = ( $type == 'playlist' ) ? $album['collect_cover'] : $album['album_cover'];
     $ab = array('id'=> $id,'title' => $name ,'img' => $img , 'type' => $type );
     $lists[] = $ab;
 

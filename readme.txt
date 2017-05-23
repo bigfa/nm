@@ -2,7 +2,7 @@
 Contributors: bigfa
 Tags: wordpress, 163,music ,网易云音乐, 虾米音乐
 Requires at least: 4.0
-Tested up to: 4.8
+Tested up to: 5.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,6 +12,8 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Description ==
 
 已修复网易封锁海外IP的问题。
+
+修复mp3地址失效的问题，海外主机暂未测试。
 
 演示地址:[https://galfond.com/music](https://galfond.com/music)
 
@@ -30,6 +32,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
 
 == Changelog ==
+= 3.0.1 =
+* 错误修复
+
 = 2.0.13 =
 * 错误修复与样式改进
 

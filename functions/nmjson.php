@@ -2,6 +2,7 @@
 class nmjson{
     public function __construct(){
         $this->get_token();
+        require('Meting.php');
     }
 
 
@@ -166,7 +167,10 @@ class nmjson{
             foreach ($response["songs"][0]["artists"] as $artist) {
                 $artists[] = $artist["name"];
             }
-
+            $Meting = new \Metowolf\Meting('netease');
+            $mp3_url = json_decode($Meting->format()->url($music_id,320),true);
+            //var_dump($mp3_url);
+            $mp3_url = $mp3_url['url'];
             $artists = implode(",", $artists);
             $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $music_id ) : "";
             $result = array(
@@ -235,7 +239,11 @@ class nmjson{
             );
 
             foreach($result as $k => $value){
-                $mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
+                //$mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
+                $Meting = new \Metowolf\Meting('netease');
+                $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
+            //var_dump($mp3_url);
+                $mp3_url = $mp3_url['url'];
                 $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $value["id"]) : "";
                 $album["songs"][] = array(
                     "id" => $value["id"],
@@ -285,7 +293,11 @@ class nmjson{
             );
 
             foreach($result as $k => $value){
-                $mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
+                //$mp3_url = str_replace("http://m", "http://p", $value["mp3Url"]);
+                $Meting = new \Metowolf\Meting('netease');
+                $mp3_url = json_decode($Meting->format()->url($value["id"],320),true);
+            //var_dump($mp3_url);
+                $mp3_url = $mp3_url['url'];
                 $artists = array();
                 foreach ($value["artists"] as $artist) {
                     $artists[] = $artist["name"];

@@ -40,22 +40,52 @@ function nm_generate_player( $source = null,$type = null, $id = null){
     if($source == 'netease' ) {
         switch ($type) {
             case 'album':
+                $data = $nmjson->netease_album($id);
+                $songs = $data['songs'];
+                $html .= nm_single_playform( $data['album_id'] , $nminstance , $data['album_cover'] , $data['album_title'] , $data['album_author'] , '' , true );
+                $class = nm_get_setting('listopen') ? ' hide' : '';
 
-                $html .= '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=1&id=' . $id . '&auto=0&height=430"></iframe>';
+                $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $nminstance . '" data-index="' . $nminstance . '">';
+                foreach ($songs as $key => $song) {
+                    $html .= '<div class="nms-list-item">' . $song['title'] . ' - ' . $song['artist'] . '<span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
+                }
+                $html .= '</div>';
+                $html .= '<script>playlist.push(' . json_encode($songs). ');</script>';
                 break;
 
             case 'song':
+                $data = nm_get_setting('oversea') ? $nmjson->netease_oversea_song($id) : $nmjson->netease_song($id);
+                $html .= nm_single_playform( $data['id'] , $nminstance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
+                if( nm_get_setting("comment") ) $comments = $nmjson->comments($id);
+                if (!empty($comments)) :
+                    $html .= '<div class="nmhotcom"><span class="com-close">X</span><div class="nmhc-title">网易热评</div>';
+                    foreach ($comments as $key => $comment) {
+                        $html .= '<div class="nmh-item"><span style="background-image:url(' . $comment['user']['avatarUrl'] . '?param=48x48)" class="nmu-avatar"></span><span class="nmu-name">' . $comment['user']['nickname'] . '</span>:' .$comment['content'] . '</div>';
+                    }
+                    $html .= '</div>';
+                endif;
 
-                $html .= '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=' . $id . '&auto=0&height=66"></iframe>';
+                $html .= '<script>playlist.push(' . json_encode(array($data)). ');</script>';
                 break;
 
             case 'playlist':
-                $html .= '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=450 src="//music.163.com/outchain/player?type=0&id=' . $id . '&auto=0&height=430"></iframe>';
-                break;
+                $data = $nmjson->netease_playlist($id);
+                $songs = $data['songs'];
 
+                $html .= nm_single_playform( $data['collect_id'] , $nminstance , $data['collect_cover'] , $data['collect_title'] , $data['collect_author'] , ''  , true);
+                $class = nm_get_setting('listopen') ? ' hide' : '';
+
+                $html .= '<div class="nms-list' . $class . '" id="nm-list-' . $nminstance . '" data-index="' . $nminstance . '">';
+                foreach ($songs as $key => $song) {
+                    $html .= '<div class="nms-list-item"><span class="song-info">' . $song['title'] . ' - ' . $song['artist'] . '</span><span class="song-time">' . nm_format_time( $song['duration'] ) . '</span></div>';
+                }
+                $html .= '</div>';
+                $html .= '<script>playlist.push(' . json_encode($songs). ');</script>';
+                break;
             case 'program':
-                
-                $html .= '<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=3&id=' .$id .'&auto=0&height=66"></iframe>';
+                $data = $nmjson->netease_radio($id);
+                $html .= nm_single_playform( $data['id'] , $nminstance , $data['cover'] , $data['title'] , $data['artist'] , $data['duration'] );
+                $html .= '<script>playlist.push(' . json_encode(array($data)) . ');</script>';
                 break;
             default:
                 return $url;

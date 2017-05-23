@@ -66,7 +66,7 @@ function netease_music_output(){
     $max_page = get_netease_max_page();
     $style = '<div id="nm-wrapper" class="nm-wrapper">';
     $output = $style;
-    $output .= get_private_list();
+    $output .= nm_get_setting('privatelist') ? get_private_list() : get_netease_music();
     $output .= '</div><div class="music-page-navi">';
 
     if($max_page > 1) $output .= '<a class="nm-loadmore" data-action="get_music" data-paged="2" data-max="'.$max_page.'" href="javascript:;">加载更多音乐</a>';
@@ -194,10 +194,10 @@ function nmjson_callback() {
     $id = $_POST['id'];
     $type = $_POST['type'];
 
-    if ( $type == 'playlist' ) {
-        $song = $nmjson->xiami_album($id);
+    if ( $type == 'album' ) {
+        $song = $nmjson->netease_album($id);
     } else {
-        $song = $nmjson->xiami_collect($id);
+        $song = $nmjson->netease_playlist($id);
     }
 
     $result = array(
