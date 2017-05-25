@@ -7,7 +7,7 @@ class nmjson{
 
     public function song_url($site, $music_id)
     {
-        $cacheKey = "/$site/song_url/$music_id";
+        $cacheKey = "/netease/song_url/$music_id";
         $url = $this->get_cache($cacheKey);
         if ($url) {
             Header("X-Hermit-Cached: From Cache");
@@ -509,9 +509,14 @@ class nmjson{
         return $cache === false ? false : json_decode($cache,true);
     }
 
-    public function set_cache($key, $value){
+    public function set_cache($key, $value , $hour ){
         $value  = json_encode($value);
-        $cache_time = nm_get_setting("cachetime") ? nm_get_setting("cachetime") : ( 60 * 60 * 24 * 7);
+        if ( $hour ) {
+            $cache_time = 60 * 60 * $hour;
+        } else {
+            $cache_time = nm_get_setting("cachetime") ? nm_get_setting("cachetime") : ( 60 * 60 * 24 * 7);
+        }
+        
         if ( nm_get_setting("objcache") ){
             wp_cache_set($key, $value, 'neteasemusic', $cache_time);
         } else {

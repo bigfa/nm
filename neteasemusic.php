@@ -3,12 +3,12 @@
 Plugin Name: Netease Music
 Plugin URI: https://fatesinger.com/74369
 Description: WordPress 音乐播放器，支持网易云音乐和虾米音乐。
-Version: 3.0.2
+Version: 3.0.3
 Author: bigfa
 Author URI: https://fatesinger.com/
 */	
 
-define('NM_VERSION', '3.0.2');
+define('NM_VERSION', '3.0.3');
 define('NM_URL', plugins_url('', __FILE__));
 define('NM_PATH', dirname( __FILE__ ));
 define('NM_ADMIN_URL', admin_url());

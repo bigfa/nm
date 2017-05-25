@@ -11,11 +11,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-已修复网易封锁海外IP的问题。
+原接口已失效，不再支持版权歌曲。
 
-修复mp3地址失效的问题，海外主机暂未测试。
-
-演示地址:[https://galfond.com/music](https://galfond.com/music)
+演示地址:[https://jaguar.wpista.com/music](https://jaguar.wpista.com/music)
 
 插件使用帮助：[https://fatesinger.com/74369](https://fatesinger.com/74369)
 
@@ -29,9 +27,12 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Frequently asked questions ==
 
-网易云音乐资源均为http资源，如果你是整站https，则会出现小黄锁。
+如更新后仍无法播放请在插件设置页面清除缓存。
 
 == Changelog ==
+= 3.0.3 =
+* 错误修复与样式改进
+
 = 3.0.2 =
 * https 支持
 
