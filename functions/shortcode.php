@@ -5,11 +5,15 @@ if(!isset($nmjson)){
 }
 
 add_shortcode('nms', 'nms_shortcode');
+if ( nm_get_setting("hermit") ) add_shortcode('hermit', 'nms_hermit_shortcode');
 
 function nms_shortcode( $atts, $content = null ){
     global $instance;
     global $nmjson;
     $instance = $instance ? $instance : 0;
+    global $nminstance;
+
+    $nminstance = $nminstance ? $nminstance : 0;
     $html = '';
     if( $instance === 0) $html ='<script>var playlist = []</script><div id="nm_jplayer" style="display:none"></div>';
     extract( shortcode_atts( array(
@@ -26,6 +30,44 @@ function nms_shortcode( $atts, $content = null ){
         $type = $matches[1];
         $id = $matches[2];
         $html .= nm_generate_player('xiami',$type,$id);
+    }
+    return $html;
+}
+
+function nms_hermit_shortcode( $atts, $content = null ){
+    global $instance;
+    global $nmjson;
+    $instance = $instance ? $instance : 0;
+    global $nminstance;
+
+    $nminstance = $nminstance ? $nminstance : 0;
+    $html = '';
+    if( $nminstance === 0) $html ='<script>var playlist = []</script><div id="nm_jplayer" style="display:none"></div>';
+    extract( shortcode_atts( array(
+        'url' => '',
+    ),$atts ) );
+    wp_enqueue_style('nms');
+    wp_enqueue_script('nm');
+    wp_enqueue_script('nms');
+
+    $datas = explode('#:',$content);
+    if( $datas[0] == 'netease_album' ){
+        $html .= nm_generate_player('netease','album',$datas[1]);
+        $nminstance++;
+    } elseif ( $datas[0] == 'netease_playlist' ){
+        $html .= nm_generate_player('netease','playlist',$datas[1]);
+        $nminstance++;
+    } elseif ( $datas[0] == 'netease_songs') {
+        $songs_id = explode(',',$datas[1]);
+        if ( !empty( $songs_id) ) {
+            foreach ($songs_id as $key => $song_id) {
+                $html .= nm_generate_player('netease','song',$song_id);
+                $nminstance++;
+            }
+        } else {
+            $html .= nm_generate_player('netease','song',$datas[1]);
+            $nminstance++;
+        }
     }
     return $html;
 }

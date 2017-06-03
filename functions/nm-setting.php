@@ -89,12 +89,12 @@
                 </td>
             </tr>
             <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('oversea');?>">海外服务器</label></th>
+                <th scope="row"><label for="<?php echo nm_setting_key('hermit');?>">兼容hermit</label></th>
                 <td>
-                    <label for="<?php echo nm_setting_key('oversea');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('oversea');?>" id="oversea" value="1" <?php if(nm_get_setting("oversea")) echo 'checked="checked"';?>>
+                    <label for="<?php echo nm_setting_key('hermit');?>">
+                        <input type="checkbox" name="<?php echo nm_setting_key('hermit');?>" id="hermit" value="1" <?php if(nm_get_setting("hermit")) echo 'checked="checked"';?>>
                     </label>
-                    <p class="description">海外服务器勾选此项。</p>
+                    <p class="description">开启后可兼容hermit 插件短代码。</p>
                 </td>
             </tr>
             <tr valign="top">

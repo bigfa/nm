@@ -509,7 +509,7 @@ class nmjson{
         return $cache === false ? false : json_decode($cache,true);
     }
 
-    public function set_cache($key, $value , $hour ){
+    public function set_cache($key, $value , $hour = 0 ){
         $value  = json_encode($value);
         if ( $hour ) {
             $cache_time = 60 * 60 * $hour;
