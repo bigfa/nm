@@ -37,6 +37,7 @@ function nm_generate_player( $source = null,$type = null, $id = null){
     $source = $source ? $source : 'netease';
     global $nmjson;
     global $nminstance;
+    $html = '';
     if($source == 'netease' ) {
         switch ($type) {
             case 'album':

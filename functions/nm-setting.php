@@ -23,7 +23,7 @@
             <tr valign="top">
                 <th scope="row"><label>使用方法</label></th>
                 <td>
-                    <p>请查看<a href="https://fatesinger.com/74369">帮助文章</a></p>
+                    <p>请查看<a href="https://fatesinger.com/77695">帮助文章</a></p>
                 </td>
             </tr>
             <tr valign="top">
@@ -86,15 +86,6 @@
                         }
                         ?>
                     </select>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="<?php echo nm_setting_key('hermit');?>">兼容hermit</label></th>
-                <td>
-                    <label for="<?php echo nm_setting_key('hermit');?>">
-                        <input type="checkbox" name="<?php echo nm_setting_key('hermit');?>" id="hermit" value="1" <?php if(nm_get_setting("hermit")) echo 'checked="checked"';?>>
-                    </label>
-                    <p class="description">开启后可兼容hermit 插件短代码。</p>
                 </td>
             </tr>
             <tr valign="top">

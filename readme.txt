@@ -32,7 +32,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Changelog ==
 = 3.0.4 =
 * 错误修复与样式改进
-* 兼容hermit 插件短代码
 
 = 3.0.3 =
 * 错误修复与样式改进

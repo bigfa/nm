@@ -2,7 +2,7 @@
 class nmjson{
     public function __construct(){
         $this->get_token();
-        require('Meting.php');
+        if ( !class_exists('Meting') ) require('Meting.php');
     }
 
     public function song_url($site, $music_id)
@@ -20,7 +20,6 @@ class nmjson{
             $url = json_decode($Meting->format()->url($music_id, 320), true);
             $url = $url['url'];
             if (empty($url)) {
-                Header("Location: " . "https://api.lwl12.com/music/$site/song?id=" . $music_id);
                 exit;
             }
         }
@@ -516,7 +515,7 @@ class nmjson{
         } else {
             $cache_time = nm_get_setting("cachetime") ? nm_get_setting("cachetime") : ( 60 * 60 * 24 * 7);
         }
-        
+
         if ( nm_get_setting("objcache") ){
             wp_cache_set($key, $value, 'neteasemusic', $cache_time);
         } else {
