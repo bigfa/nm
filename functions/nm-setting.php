@@ -65,6 +65,18 @@
                     <p class="description">点击你的个人主页，URL类似为<code>http://music.163.com/#/user/home?id=30829298</code>，<code>30829298</code>就是你的ID</p>
                 </td>
             </tr>
+            <?php /*
+            <tr valign="top">
+                <th scope="row"><label for="url">网易Cookie</label></th>
+                <td>
+                    <textarea name="<?php echo nm_setting_key('cookie');?>" class="nm-textarea"><?php echo nm_get_setting('cookie');?></textarea>
+                    <p class="description">由于网易云音乐多次封禁 Meting 所使用的 cookie，因此 Meting 将不再做 cookie 的更新工作，如插件获取失败，请用户、开发者自行采集 cookie。下面给出一点提示，自由发挥</p>
+                    <p class="description"><code>os=pc; osver=Microsoft-Windows-10-Professional-build-10586-64bit; appver=2.0.3.131777; channel=netease; __remember_me=true</code></p>
+                    <p class="description"><code>MUSIC_U=*****; buildver=1506310743; resolution=1920x1080; mobilename=MI5; osver=7.0.1; channel=coolapk; os=android; appver=4.2.0</code></p>
+                    <p class="description"><code>osver=%E7%89%88%E6%9C%AC%2010.13.3%EF%BC%88%E7%89%88%E5%8F%B7%2017D47%EF%BC%89; os=osx; appver=1.5.9; MUSIC_U=*****; channel=netease; </code></p>
+                </td>
+            </tr>
+            */?>
             <tr valign="top">
                 <th scope="row"><label for="url">自定义CSS</label></th>
                 <td>

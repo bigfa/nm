@@ -2,13 +2,13 @@
 class nmjson{
     public function __construct(){
         $this->get_token();
-        if ( !class_exists('Meting') ) require('Meting.php');
+        //if ( !class_exists('Meting') ) require('Meting.php');
     }
-
+    /*
     public function song_url($site, $music_id)
     {
         $cacheKey = "/netease/song_url/$music_id";
-        //$url = $this->get_cache($cacheKey);
+        $url = $this->get_cache($cacheKey);
         if ($url) {
             Header("X-Hermit-Cached: From Cache");
             Header("Location: " . $url);
@@ -18,13 +18,26 @@ class nmjson{
         $i = ($site !== "netease") ? 1 : -1;
         $url = json_decode($Meting->format()->url($music_id, 320), true);
         $url = $url['url'];
-        if($i > 0 && $site === "netease") Header("X-Hermit-Retrys: $i");
-        if($site === "netease") $url = str_replace('http://m7', 'https://m8', $url);
-        if($site === "xiami") $url = str_replace('http://', 'https://', $url);
+        if ( !$url ) {
+            $song_info = $this->netease_song($music_id);
+            $api = new \Metowolf\Meting('tencent');
+            $data = $api->format(true)->search($song_info['title'].' '.$song_info['artist']);
+            $data = json_decode($data,true);
+            $best = 0;
+            $ans = $data[0];
+            $url = $api->url($ans['url_id']);
+            $url = json_decode($url,true);
+            $url = $url['url'];
+        } else {
+            if($i > 0 && $site === "netease") Header("X-Hermit-Retrys: $i");
+            if($site === "netease") $url = str_replace('http://m7', 'https://m8', $url);
+            if($site === "xiami") $url = str_replace('http://', 'https://', $url);
+        }
         $this->set_cache($cacheKey, $url, 0.25);
         Header("Location: " . $url);
         exit;
     }
+    */
     public function xiami_song($song_id)
     {
         $cache_key = "/xiami/song/" . $song_id;
@@ -135,58 +148,46 @@ class nmjson{
         return false;
     }
 
-    public function netease_oversea_song($music_id)
+        public function netease_oversea_song($music_id)
     {
         $key = "/netease/song/$music_id";
-
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
-
         $url = "http://music.163.com/api/song/detail/?id=" . $music_id . "&ids=%5B" . $music_id . "%5D";
         $response = $this->netease_http($url);
-
         if( $response["code"]==200 && $response["songs"] ){
             $album_id = $response["songs"][0]["album"]['id'];
-
             $album = $this->netease_album($album_id);
-
             $songs = $album['songs'];
-
             foreach ($songs as $key => $song) {
                 if ( $song['id'] == $music_id ) $result = $song;
             }
-
             $result['cover'] = $response["songs"][0]["album"]["picUrl"];
             $this->set_cache($key, $result);
-
             return $result;
         }
-
         return false;
     }
     public function netease_song($music_id)
     {
         $key = "/netease/song/$music_id";
-
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
-
         $url = "http://music.163.com/api/song/detail/?id=" . $music_id . "&ids=%5B" . $music_id . "%5D";
         $response = $this->netease_http($url);
-
         if( $response["code"]==200 && $response["songs"] ){
             //print_r($response["songs"][0]["album"]['id']);
             //处理音乐信息
-            $mp3_url = $response["songs"][0]["mp3Url"];
-            $mp3_url = str_replace("http://m", "http://p", $mp3_url);
+            //$mp3_url = $response["songs"][0]["mp3Url"];
+            //$mp3_url = str_replace("http://m", "http://p", $mp3_url);
+            $mp3_url = 'https://music.163.com/song/media/outer/url?id=' .  $music_id . '.mp3';
             $music_name = $response["songs"][0]["name"];
-            $mp3_cover = str_replace("http://", "//", $response["songs"][0]["album"]["picUrl"]);
+            $mp3_cover = $response["songs"][0]["album"]["picUrl"];
             $song_duration = $response["songs"][0]["duration"];
             $artists = array();
             foreach ($response["songs"][0]["artists"] as $artist) {
                 $artists[] = $artist["name"];
             }
-            $mp3_url = admin_url('admin-ajax.php') . '?action=nmjson&type=song_url&id=' . $music_id;
             $artists = implode(",", $artists);
             $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $music_id ) : "";
             $result = array(
@@ -198,22 +199,16 @@ class nmjson{
                 "duration" => $song_duration / 1000,
                 "lrc" => $lrc
             );
-
             $this->set_cache($key, $result);
-
             return $result;
         }
-
         return false;
     }
-
     public function netease_songs($song_list)
     {
         if( !$song_list ) return false;
-
         $songs_array = explode(",", $song_list);
         $songs_array = array_unique($songs_array);
-
         if( !empty($songs_array) ){
             $result = array();
             foreach( $songs_array as $song_id ){
@@ -221,121 +216,113 @@ class nmjson{
             }
             return $result;
         }
-
         return false;
     }
-
     public function netease_album($album_id)
     {
         $key = "/netease/album/$album_id";
-
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
-        $Meting = new \Metowolf\Meting('netease');
         $url = "http://music.163.com/api/album/" . $album_id;
-        $response = json_decode($Meting->format()->album($album_id), true);
-        if (!empty($response[0])) {
-            $result = $response;
-            $count  = count($result);
-            if ($count < 1) {
-                return false;
-            }
-            $playlist = array(
-                "playlist_id" => $playlist_id,
-                "playlist_type" => "playlists",
-                "playlist_count" => $count
+        $response = $this->netease_http($url);
+        if( $response["code"]==200 && $response["album"] ){
+            //处理音乐信息
+            $result = $response["album"]["songs"];
+            $count = count($result);
+            if( $count < 1 ) return false;
+            $album_name = $response["album"]["name"];
+            $album_author = $response["album"]["artist"]["name"];
+            $album_cover = $response["album"]["blurPicUrl"];
+            $album = array(
+                "album_id" => $album_id,
+                "album_title" => $album_name,
+                "album_author" => $album_author,
+                "album_type" => "albums",
+                "album_cover" => $album_cover,
+                "album_count" => $count
             );
-            foreach ($result as $k => $value) {
-                $mp3_url = admin_url() . "admin-ajax.php" . "?action=nmjson&type=song_url&id=" . $value["url_id"];
-                $artists = $value["artist"];
-                $artists = implode(",", $artists);
+            foreach($result as $k => $value){
+                $mp3_url = 'https://music.163.com/song/media/outer/url?id=' .  $value["id"] . '.mp3';
                 $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $value["id"]) : "";
-                $playlist["songs"][] = array(
+                $album["songs"][] = array(
                     "id" => $value["id"],
                     "title" => $value["name"],
-                    "duration" => 0,
+                    "duration" => $value["duration"] / 1000,
                     "mp3" => $mp3_url,
-                    "artist" => $artists,
+                    "artist" => $album_author,
                     "lrc" => $lrc
                 );
             }
-            $this->set_cache($key, $playlist);
-
-            return $playlist;
+            $this->set_cache($key, $album);
+            return $album;
         }
-
         return false;
     }
-
-
-
     public function netease_playlist($playlist_id)
     {
         $key = "/netease/playlist/$playlist_id";
         netease_music_update_play_count($playlist_id);
-        $Meting = new \Metowolf\Meting('netease');
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
         $url = "http://music.163.com/api/playlist/detail?id=" . $playlist_id;
-        $response = json_decode($Meting->format()->playlist($playlist_id), true);
-        if (!empty($response[0])) {
-            $result = $response;
-            $count  = count($result);
-            if ($count < 1) {
-                return false;
-            }
-            $playlist = array(
-                "playlist_id" => $playlist_id,
-                "playlist_type" => "playlists",
-                "playlist_count" => $count
+        $response = $this->netease_http($url);
+        if( $response["code"]==200 && $response["result"] ){
+            //处理音乐信息
+            $result = $response["result"]["tracks"];
+            $count = count($result);
+            if( $count < 1 ) return false;
+            $collect_name = $response["result"]["name"];
+            $collect_author = $response["result"]["creator"]["nickname"];
+            $collect = array(
+                "collect_id" => $playlist_id,
+                "collect_title" => $collect_name,
+                "collect_author" => $collect_author,
+                "collect_type" => "collects",
+                "collect_count" => $count,
+                "collect_cover" => $response["result"]["coverImgUrl"]
             );
-            foreach ($result as $k => $value) {
-                $mp3_url = admin_url() . "admin-ajax.php" . "?action=nmjson&type=song_url&id=" . $value["url_id"];
-                $artists = $value["artist"];
+            foreach($result as $k => $value){
+                $mp3_url = 'https://music.163.com/song/media/outer/url?id=' .  $value["id"] . '.mp3';
+                $artists = array();
+                foreach ($value["artists"] as $artist) {
+                    $artists[] = $artist["name"];
+                }
                 $artists = implode(",", $artists);
                 $lrc = nm_get_setting("lyric") ? $this->get_song_lrc( $value["id"]) : "";
-                $playlist["songs"][] = array(
+                $collect["songs"][] = array(
                     "id" => $value["id"],
                     "title" => $value["name"],
-                    "duration" => 0,
+                    "duration" => $value["duration"] / 1000,
                     "mp3" => $mp3_url,
                     "artist" => $artists,
                     "lrc" => $lrc
                 );
             }
-            $this->set_cache($key, $playlist);
-
-            return $playlist;
+            $this->set_cache($key, $collect);
+            return $collect;
         }
-
         return false;
     }
-
     public function netease_user($userid)
     {
         $key = "/netease/userinfo/$userid";
-
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
         $userplaylist = array();
         $url = "http://music.163.com/api/user/playlist/?offset=0&limit=1001&uid=" . $userid;
         $response = $this->netease_http($url);
-
         if( $response["code"]==200 && $response["playlist"] ){
             $playlists = $response["playlist"];
             foreach($playlists as $playlist){
                 $userplaylist[] = array(
                     "playlist_id" => $playlist["id"],
                     "playlist_name" => $playlist["name"],
-                    "playlist_coverImgUrl" => $mp3_cover = str_replace("http://", "//", $playlist["coverImgUrl"])
+                    "playlist_coverImgUrl" => $playlist["coverImgUrl"]
                 );
-
-
             }
             $this->set_cache($key, $userplaylist);
             return $userplaylist;
         }
-
     }
 
     public function netease_radio($id)
