@@ -38,8 +38,7 @@ class nmjson{
         exit;
     }
     */
-    public function xiami_song($song_id)
-    {
+    public function xiami_song($song_id){
         $cache_key = "/xiami/song/" . $song_id;
 
         $cache = $this->get_cache($cache_key);
@@ -67,8 +66,7 @@ class nmjson{
         return false;
     }
 
-    public function xiami_collect($collect_id)
-    {
+    public function xiami_collect($collect_id){
         $cache_key = '/xiami/collect/' . $collect_id;
 
         $cache = $this->get_cache($cache_key);
@@ -111,8 +109,7 @@ class nmjson{
         return false;
     }
 
-    public function xiami_album($album_id)
-    {
+    public function xiami_album($album_id){
         $cache_key = '/xiami/album/' . $album_id;
 
         $cache = $this->get_cache($cache_key);
@@ -148,8 +145,7 @@ class nmjson{
         return false;
     }
 
-        public function netease_oversea_song($music_id)
-    {
+    public function netease_oversea_song($music_id){
         $key = "/netease/song/$music_id";
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
@@ -168,8 +164,8 @@ class nmjson{
         }
         return false;
     }
-    public function netease_song($music_id)
-    {
+
+    public function netease_song($music_id){
         $key = "/netease/song/$music_id";
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
@@ -183,6 +179,7 @@ class nmjson{
             $mp3_url = 'https://music.163.com/song/media/outer/url?id=' .  $music_id . '.mp3';
             $music_name = $response["songs"][0]["name"];
             $mp3_cover = $response["songs"][0]["album"]["picUrl"];
+            $mp3_cover = str_replace('http://', 'https://', $mp3_cover);
             $song_duration = $response["songs"][0]["duration"];
             $artists = array();
             foreach ($response["songs"][0]["artists"] as $artist) {
@@ -204,8 +201,7 @@ class nmjson{
         }
         return false;
     }
-    public function netease_songs($song_list)
-    {
+    public function netease_songs($song_list){
         if( !$song_list ) return false;
         $songs_array = explode(",", $song_list);
         $songs_array = array_unique($songs_array);
@@ -218,8 +214,7 @@ class nmjson{
         }
         return false;
     }
-    public function netease_album($album_id)
-    {
+    public function netease_album($album_id){
         $key = "/netease/album/$album_id";
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
@@ -233,6 +228,7 @@ class nmjson{
             $album_name = $response["album"]["name"];
             $album_author = $response["album"]["artist"]["name"];
             $album_cover = $response["album"]["blurPicUrl"];
+            $album_cover = str_replace('http://', 'https://', $album_cover );
             $album = array(
                 "album_id" => $album_id,
                 "album_title" => $album_name,
@@ -258,8 +254,7 @@ class nmjson{
         }
         return false;
     }
-    public function netease_playlist($playlist_id)
-    {
+    public function netease_playlist($playlist_id){
         $key = "/netease/playlist/$playlist_id";
         netease_music_update_play_count($playlist_id);
         $cache = $this->get_cache($key);
@@ -273,13 +268,15 @@ class nmjson{
             if( $count < 1 ) return false;
             $collect_name = $response["result"]["name"];
             $collect_author = $response["result"]["creator"]["nickname"];
+            $album_cover = $response["result"]["coverImgUrl"];
+            $album_cover = str_replace('http://', 'https://', $album_cover );
             $collect = array(
                 "collect_id" => $playlist_id,
                 "collect_title" => $collect_name,
                 "collect_author" => $collect_author,
                 "collect_type" => "collects",
                 "collect_count" => $count,
-                "collect_cover" => $response["result"]["coverImgUrl"]
+                "collect_cover" => $album_cover
             );
             foreach($result as $k => $value){
                 $mp3_url = 'https://music.163.com/song/media/outer/url?id=' .  $value["id"] . '.mp3';
@@ -303,8 +300,7 @@ class nmjson{
         }
         return false;
     }
-    public function netease_user($userid)
-    {
+    public function netease_user($userid){
         $key = "/netease/userinfo/$userid";
         $cache = $this->get_cache($key);
         if( $cache ) return $cache;
@@ -314,10 +310,11 @@ class nmjson{
         if( $response["code"]==200 && $response["playlist"] ){
             $playlists = $response["playlist"];
             foreach($playlists as $playlist){
+                $album_cover = str_replace('http://', 'https://', $playlist["coverImgUrl"] );
                 $userplaylist[] = array(
                     "playlist_id" => $playlist["id"],
                     "playlist_name" => $playlist["name"],
-                    "playlist_coverImgUrl" => $playlist["coverImgUrl"]
+                    "playlist_coverImgUrl" => $album_cover
                 );
             }
             $this->set_cache($key, $userplaylist);
@@ -325,8 +322,7 @@ class nmjson{
         }
     }
 
-    public function netease_radio($id)
-    {
+    public function netease_radio($id){
         $key = "/netease/radios/$id";
 
         $cache = $this->get_cache($key);
@@ -435,8 +431,7 @@ class nmjson{
         return $now_lrc;
     }
 
-    private function netease_http($url)
-    {
+    private function netease_http($url){
         $refer = "http://music.163.com/";
         $header[] = "Cookie: " . "appver=1.5.0.75771;";
         $ch = curl_init();
@@ -491,8 +486,7 @@ class nmjson{
 
     }
 
-    private function xiami_http($type, $id)
-    {
+    private function xiami_http($type, $id){
 
         switch($type){
             case 0:
@@ -520,7 +514,6 @@ class nmjson{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $cexecute = curl_exec($ch);
         @curl_close($ch);
-
         if ($cexecute) {
             $result = json_decode($cexecute, TRUE);
             return $result;
@@ -529,10 +522,8 @@ class nmjson{
         }
     }
 
-    private function get_token()
-    {
+    private function get_token(){
         $token = get_transient('_xiamitoken');
-
         if ($token) {
             $this->token = $token;
         } else {
@@ -552,7 +543,6 @@ class nmjson{
                 foreach ($cookies as $key => $cookie) {
                     if ($cookie->name == '_xiamitoken') {
                         $this->token = $cookie->value;
-
                         set_transient('_xiamitoken', $this->token, 60 * 60 * 100);
                     }
                 }

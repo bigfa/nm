@@ -2,7 +2,7 @@
 Contributors: bigfa
 Tags: wordpress, 163,music ,网易云音乐, 虾米音乐
 Requires at least: 4.0
-Tested up to: 5.0
+Tested up to: 6.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,7 +13,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 原接口已失效，不再支持版权歌曲。
 
-演示地址:[https://jaguar.wpista.com/music](https://jaguar.wpista.com/music)
+演示地址:[http://coffin.wpista.com/music](http://coffin.wpista.com/music)
 
 插件使用帮助：[https://fatesinger.com/74369](https://fatesinger.com/74369)
 
@@ -30,6 +30,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 如更新后仍无法播放请在插件设置页面清除缓存。
 
 == Changelog ==
+= 3.1.0 =
+* 强制封面https
+
 = 3.0.13 =
 * 恢复网易音源
 
