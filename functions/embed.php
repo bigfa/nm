@@ -29,9 +29,9 @@ function nm_single_playform( $id , $instance , $cover , $title , $artist , $dura
     return '<div id="nm-player-' . $instance . '" class="nmsingle-container"><div class="nmsingle-cover" style="background-image:url(' . $cover . '?param=148x148)"><span class="nms-play-btn fxfont nm-play" data-index=' . $instance . '></span></div><div class="nmsingle-info"><div class="nmplayer-top"><span class="nmplayer-title">' . $title . ' - ' . $artist . '</span><span class="nmsingle-playtime"><span class="current-time">--:--</span> / <span class="duration">' . nm_format_time($duration) . '</span></span></div><div class="nmplayer-mid"><div class="nmplayer-control" data-index=' . $instance . '><span class="fxfont nm-previous"></span><span class="fxfont nm-next"></span><span class="nm-mute fxfont"></span>' . $listh . '</div><div class="nmsingle-lrc">(*+﹏+*)</div></div><div class="nmsingle-process" data-index="' . $instance . '"><div class="nmsingle-process-bar"></div></div></div></div>';
 }
 
-wp_embed_register_handler( 'neteasemusicalbum', '#http:\/\/music\.163\.com\/\#\/(\w+)\?id=(\d+)#i', 'wp_embed_handler_neteasemusicalbum' );
+wp_embed_register_handler( 'neteasemusicalbum', '#https?:\/\/music\.163\.com\/\#\/(\w+)\?id=(\d+)#i', 'wp_embed_handler_neteasemusicalbum' );
 
-wp_embed_register_handler( 'xiami','#http:\/\/www\.xiami\.com\/(\w+)\/(\d+)#i','wp_embed_handler_xiami');
+wp_embed_register_handler( 'xiami','#https?:\/\/www\.xiami\.com\/(\w+)\/(\d+)#i','wp_embed_handler_xiami');
 
 function nm_generate_player( $source = null,$type = null, $id = null){
     $source = $source ? $source : 'netease';

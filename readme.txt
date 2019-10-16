@@ -2,7 +2,7 @@
 Contributors: bigfa
 Tags: wordpress, 163,music ,网易云音乐, 虾米音乐
 Requires at least: 4.0
-Tested up to: 6.0
+Tested up to: 5.2.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -30,6 +30,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 如更新后仍无法播放请在插件设置页面清除缓存。
 
 == Changelog ==
+= 3.2.0 =
+* 解决可能无法获取个人歌单的问题
+
+= 3.1.3 =
+* 解决国外主机无法获取歌单的问题
+
+= 3.1.2 =
+* 细节改进
+
 = 3.1.0 =
 * 强制封面https
 

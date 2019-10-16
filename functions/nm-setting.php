@@ -23,7 +23,7 @@
             <tr valign="top">
                 <th scope="row"><label>使用方法</label></th>
                 <td>
-                    <p>请查看<a href="https://fatesinger.com/77695">帮助文章</a></p>
+                    <p>请查看<a href="https://fatesinger.com/74369" target="_blank">帮助文章</a></p>
                 </td>
             </tr>
             <tr valign="top">
