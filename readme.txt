@@ -30,6 +30,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 如更新后仍无法播放请在插件设置页面清除缓存。
 
 == Changelog ==
+= 3.2.2 =
+* 移除虾米
+
 = 3.2.1 =
 * 解决歌单获取失败的问题
 
